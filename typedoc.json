@@ -1,0 +1,12 @@
+{
+  "name": "p5ex",
+  "out": "doc",
+  "mode": "file",
+  "excludeExternals": true,
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "target": "ES6",
+  "theme": "minimal",
+  "readme": "README.md",
+  "hideGenerator": true
+}

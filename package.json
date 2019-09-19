@@ -1,0 +1,59 @@
+{
+  "name": "@fal-works/p5ex",
+  "description": "An extension of p5.js.",
+  "version": "0.1.0",
+  "author": "FAL",
+  "bugs": {
+    "url": "https://github.com/fal-works/p5ex/issues"
+  },
+  "dependencies": {
+    "@fal-works/creative-coding-core": "^0.1.1",
+    "p5": "^0.9.0"
+  },
+  "devDependencies": {
+    "@types/p5": "^0.7.3",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.18.2",
+    "rollup": "^1.21.4",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.21.2",
+    "terser": "^4.3.1",
+    "typedoc": "^0.15.0",
+    "typescript": "^3.6.3"
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "files": [
+    "lib",
+    "types",
+    "doc"
+  ],
+  "homepage": "https://github.com/fal-works/p5ex#readme",
+  "jsnext:main": "lib/p5ex.mjs",
+  "keywords": [],
+  "license": "MIT",
+  "main": "lib/p5ex.js",
+  "module": "lib/p5ex.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fal-works/p5ex.git"
+  },
+  "scripts": {
+    "build": "npm-run-all rollup typedoc eslint:es prettier:es terser:es eslint:umd prettier:umd terser:umd",
+    "eslint:es": "eslint --fix ./lib/p5ex.mjs",
+    "eslint:umd": "eslint --fix ./lib/p5ex.js",
+    "prettier:es": "prettier --write ./lib/p5ex.mjs",
+    "prettier:umd": "prettier --write ./lib/p5ex.js",
+    "rollup": "rollup -c",
+    "terser:es": "terser ./lib/p5ex.mjs -c -m -o ./lib/p5ex.min.mjs --comments --ecma 6",
+    "terser:umd": "terser ./lib/p5ex.js -c -m -o ./lib/p5ex.min.js --comments --ecma 6",
+    "typedoc": "typedoc src"
+  },
+  "types": "types/p5ex.d.ts"
+}
