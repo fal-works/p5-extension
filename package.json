@@ -1,10 +1,10 @@
 {
-  "name": "@fal-works/p5ex",
+  "name": "@fal-works/p5-extension",
   "description": "An extension of p5.js.",
   "version": "0.1.0",
   "author": "FAL",
   "bugs": {
-    "url": "https://github.com/fal-works/p5ex/issues"
+    "url": "https://github.com/fal-works/p5-extension/issues"
   },
   "dependencies": {
     "@fal-works/creative-coding-core": "^0.1.1",
@@ -34,26 +34,26 @@
     "types",
     "doc"
   ],
-  "homepage": "https://github.com/fal-works/p5ex#readme",
-  "jsnext:main": "lib/p5ex.mjs",
+  "homepage": "https://github.com/fal-works/p5-extension#readme",
+  "jsnext:main": "lib/p5-extension.mjs",
   "keywords": [],
   "license": "MIT",
-  "main": "lib/p5ex.js",
-  "module": "lib/p5ex.mjs",
+  "main": "lib/p5-extension.js",
+  "module": "lib/p5-extension.mjs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fal-works/p5ex.git"
+    "url": "git+https://github.com/fal-works/p5-extension.git"
   },
   "scripts": {
     "build": "npm-run-all rollup typedoc eslint:es prettier:es terser:es eslint:umd prettier:umd terser:umd",
-    "eslint:es": "eslint --fix ./lib/p5ex.mjs",
-    "eslint:umd": "eslint --fix ./lib/p5ex.js",
-    "prettier:es": "prettier --write ./lib/p5ex.mjs",
-    "prettier:umd": "prettier --write ./lib/p5ex.js",
+    "eslint:es": "eslint --fix ./lib/p5-extension.mjs",
+    "eslint:umd": "eslint --fix ./lib/p5-extension.js",
+    "prettier:es": "prettier --write ./lib/p5-extension.mjs",
+    "prettier:umd": "prettier --write ./lib/p5-extension.js",
     "rollup": "rollup -c",
-    "terser:es": "terser ./lib/p5ex.mjs -c -m -o ./lib/p5ex.min.mjs --comments --ecma 6",
-    "terser:umd": "terser ./lib/p5ex.js -c -m -o ./lib/p5ex.min.js --comments --ecma 6",
+    "terser:es": "terser ./lib/p5-extension.mjs -c -m -o ./lib/p5-extension.min.mjs --comments --ecma 6",
+    "terser:umd": "terser ./lib/p5-extension.js -c -m -o ./lib/p5-extension.min.js --comments --ecma 6",
     "typedoc": "typedoc src"
   },
-  "types": "types/p5ex.d.ts"
+  "types": "types/p5-extension.d.ts"
 }

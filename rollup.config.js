@@ -1,7 +1,7 @@
 import resolve from "rollup-plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
 
-const moduleName = "p5ex";
+const moduleName = "p5-extension";
 const umdName = "p5ex";
 const version = "0.1.0";
 const year = "2019";

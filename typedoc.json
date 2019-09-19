@@ -1,5 +1,4 @@
 {
-  "name": "p5ex",
   "out": "doc",
   "mode": "file",
   "excludeExternals": true,
