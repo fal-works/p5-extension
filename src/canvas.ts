@@ -2,11 +2,9 @@ import p5 from "p5";
 import {
   RectangleSize,
   RectangleRegion,
-  RectangleRegionUtility,
   FitBox,
   HtmlUtility,
-  Vector2D,
-  Vector2DUtility
+  Vector2D
 } from "@fal-works/creative-coding-core";
 
 import { p } from "./shared";
@@ -23,10 +21,10 @@ export interface ScaledCanvas {
    */
   readonly scaleFactor: number;
 
-  readonly logicalSize: RectangleSize;
-  readonly logicalRegion: RectangleRegion;
+  readonly logicalSize: RectangleSize.Unit;
+  readonly logicalRegion: RectangleRegion.Unit;
   readonly drawScaled: (drawCallback: () => void) => void;
-  readonly logicalCenterPosition: Vector2D;
+  readonly logicalCenterPosition: Vector2D.Unit;
 }
 
 /**
@@ -41,7 +39,7 @@ export interface ScaledCanvas {
  */
 export const createScaledCanvas = (
   node: HTMLElement | string,
-  logicalSize: RectangleSize,
+  logicalSize: RectangleSize.Unit,
   fittingOption?: FitBox.FittingOption,
   renderer?: "p2d" | "webgl" | undefined
 ): ScaledCanvas => {
@@ -64,10 +62,7 @@ export const createScaledCanvas = (
     p5Canvas: canvas,
     scaleFactor: scaleFactor,
     logicalSize,
-    logicalRegion: RectangleRegionUtility.create(
-      Vector2DUtility.zero,
-      logicalSize
-    ),
+    logicalRegion: RectangleRegion.create(Vector2D.zero, logicalSize),
     drawScaled: (drawCallback: () => void): void =>
       drawScaled(drawCallback, scaleFactor),
     logicalCenterPosition: {

@@ -20,7 +20,7 @@ export interface SketchSettings {
   /**
    * The logical (i.e. non-scaled) size of the canvas, e.g. `{ width: 640, height: 480 }`;
    */
-  logicalCanvasSize: RectangleSize;
+  logicalCanvasSize: RectangleSize.Unit;
 
   /**
    * Function that will be called in `p.setup()` just after creating the canvas.
