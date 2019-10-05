@@ -48,9 +48,9 @@ export const startSketch = (settings: SketchSettings): void => {
     setP5Instance(p);
     p.setup = (): void => {
       setCanvas(createScaledCanvas(htmlElement, settings.logicalCanvasSize));
-      settings.initialize();
       ArrayUtility.loop(onSetup, listener => listener(p));
       onSetup.length = 0;
+      settings.initialize();
     };
     settings.setP5Methods(p);
   }, htmlElement);
