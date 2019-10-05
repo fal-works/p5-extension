@@ -72,3 +72,28 @@ export const drawScaled = (
   drawCallback();
   p.scale(1 / scaleFactor);
 };
+
+/**
+ * Composite of `drawTranslated()`, `drawRotated()` and `drawScaled()`.
+ *
+ * @param drawCallback
+ * @param offsetX
+ * @param offsetY
+ * @param angle
+ * @param scaleFactor
+ */
+export const drawTransformed = (
+  drawCallback: () => void | p5,
+  offsetX: number,
+  offsetY: number,
+  angle: number,
+  scaleFactor: number
+): void => {
+  p.translate(offsetX, offsetY);
+  p.rotate(angle);
+  p.scale(scaleFactor);
+  drawCallback();
+  p.scale(1 / scaleFactor);
+  p.rotate(-angle);
+  p.translate(-offsetX, -offsetY);
+};
