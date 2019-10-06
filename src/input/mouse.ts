@@ -4,6 +4,8 @@ import { p, canvas } from "../shared";
 export const logicalPosition: Mutable<Vector2D.Unit> = { x: 0, y: 0 };
 
 export const updatePosition = () => {
+  if (!canvas) return;
+
   const factor = 1 / canvas.scaleFactor;
   logicalPosition.x = factor * p.mouseX;
   logicalPosition.y = factor * p.mouseY;
