@@ -7,7 +7,7 @@
     "url": "https://github.com/fal-works/p5-extension/issues"
   },
   "dependencies": {
-    "@fal-works/creative-coding-core": "0.1.6",
+    "@fal-works/creative-coding-core": "^0.1.7",
     "p5": "^0.9.0"
   },
   "devDependencies": {
