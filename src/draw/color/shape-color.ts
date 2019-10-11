@@ -11,7 +11,7 @@ export interface Unit {
 const emptyFunction = () => {};
 
 /**
- * Creats a `ShapeColor` unit.
+ * Creates a `ShapeColor` unit.
  * The max alpha of `stroke()` and `fill()` should be set to `255` when using this function.
  * @param strokeColor `null` will be `noStroke()` and `undefined` will have no effects.
  * @param fillColor `null` will be `noFill()` and `undefined` will have no effects.
@@ -55,9 +55,15 @@ export const create = (
 /**
  * Applies the stroke and fill colors.
  * @param shapeColor
- * @param alpha Alpha value from `0` to `1`.
+ * @param alpha Alpha value from `0` to `255`.
  */
 export const apply = (shapeColor: Unit, alpha: number): void => {
+  if (alpha < 1) {
+    p.noStroke();
+    p.noFill();
+    return;
+  }
+
   shapeColor.stroke(alpha);
   shapeColor.fill(alpha);
 };

@@ -14,15 +14,17 @@ export interface Unit {
  * @param resolution
  */
 export const create = (color: p5.Color | string, resolution: number): Unit => {
-  const colors: p5.Color[] = new Array(resolution);
+  const colors: (p5.Color)[] = new Array(resolution);
   const maxIndex = resolution - 1;
 
   if (resolution === 1) {
     colors[0] =
       typeof color === "string" ? p.color(color) : Object.assign({}, color);
   } else {
-    for (let i = 0; i < resolution; i += 1) {
-      colors[i] = colorWithAlpha(color, 255 * (i / maxIndex));
+    const baseAlpha = p.alpha(color);
+    for (let i = 1; i < resolution; i += 1) {
+      const alpha = baseAlpha * (i / maxIndex);
+      colors[i] = colorWithAlpha(color, alpha);
     }
   }
 
@@ -32,11 +34,13 @@ export const create = (color: p5.Color | string, resolution: number): Unit => {
   };
 };
 
+const inversed255 = 1 / 255;
+
 /**
  * Gets a `p5.Color` instance.
  * @param alphaColor
- * @param alpha Alpha value from `0` to `1`.
+ * @param alpha Alpha value from `0` to `255`.
  * @return A `p5.Color` instance.
  */
 export const get = (alphaColor: Unit, alpha: number): p5.Color =>
-  alphaColor.colors[Math.round(alphaColor.maxIndex * alpha)];
+  alphaColor.colors[Math.round(alphaColor.maxIndex * alpha * inversed255)];
