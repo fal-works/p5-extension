@@ -33,38 +33,41 @@ export interface ScaledCanvas {
  *
  * @param node The HTML element or its ID.
  * @param logicalSize
- * @param fittingOption
+ * @param fittingOption No scaling if `null`.
  * @param renderer
  * @return A `ScaledCanvas` instance.
  */
 export const createScaledCanvas = (
   node: HTMLElement | string,
   logicalSize: RectangleSize.Unit,
-  fittingOption?: FitBox.FittingOption,
+  fittingOption?: FitBox.FittingOption | null,
   renderer?: "p2d" | "webgl" | undefined
 ): ScaledCanvas => {
   const maxCanvasSize = HtmlUtility.getElementSize(
     typeof node === "string" ? HtmlUtility.getElementOrBody(node) : node
   );
-  const scaleFactor = FitBox.calculateScaleFactor(
-    logicalSize,
-    maxCanvasSize,
-    fittingOption
-  );
+  const scaleFactor =
+    fittingOption !== null
+      ? FitBox.calculateScaleFactor(logicalSize, maxCanvasSize, fittingOption)
+      : 1;
 
-  const canvas = p.createCanvas(
+  const p5Canvas = p.createCanvas(
     scaleFactor * logicalSize.width,
     scaleFactor * logicalSize.height,
     renderer
   );
 
+  const drawScaledFunction: (drawCallback: () => void) => void =
+    scaleFactor !== 1
+      ? drawCallback => drawScaled(drawCallback, scaleFactor)
+      : drawCallback => drawCallback();
+
   return {
-    p5Canvas: canvas,
-    scaleFactor: scaleFactor,
+    p5Canvas,
+    scaleFactor,
     logicalSize,
     logicalRegion: RectangleRegion.create(Vector2D.zero, logicalSize),
-    drawScaled: (drawCallback: () => void): void =>
-      drawScaled(drawCallback, scaleFactor),
+    drawScaled: drawScaledFunction,
     logicalCenterPosition: {
       x: logicalSize.width / 2,
       y: logicalSize.height / 2

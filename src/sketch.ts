@@ -2,7 +2,8 @@ import p5 from "p5";
 import {
   HtmlUtility,
   RectangleSize,
-  ArrayUtility
+  ArrayUtility,
+  FitBox
 } from "@fal-works/creative-coding-core";
 import { setP5Instance, setCanvas } from "./shared";
 import { createScaledCanvas } from "./canvas";
@@ -32,6 +33,11 @@ export interface SketchSettings {
    * Function that should set several methods of `p5` instance, e.g. `p.draw()`.
    */
   setP5Methods: (p5Instance: p5) => void;
+
+  /**
+   * Option for canvas scaling. Set `null` to disable scaling.
+   */
+  fittingOption?: FitBox.FittingOption | null;
 }
 
 /**
@@ -47,7 +53,13 @@ export const startSketch = (settings: SketchSettings): void => {
   new p5((p: p5): void => {
     setP5Instance(p);
     p.setup = (): void => {
-      setCanvas(createScaledCanvas(htmlElement, settings.logicalCanvasSize));
+      setCanvas(
+        createScaledCanvas(
+          htmlElement,
+          settings.logicalCanvasSize,
+          settings.fittingOption
+        )
+      );
       ArrayUtility.loop(onSetup, listener => listener(p));
       onSetup.length = 0;
       settings.initialize();
