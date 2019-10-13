@@ -1,26 +1,26 @@
 {
   "name": "@fal-works/p5-extension",
-  "description": "An extension of p5.js.",
+  "description": "An extension for p5.js.",
   "version": "0.1.6",
   "author": "FAL",
   "bugs": {
     "url": "https://github.com/fal-works/p5-extension/issues"
   },
   "dependencies": {
-    "@fal-works/creative-coding-core": "^0.1.7",
+    "@fal-works/creative-coding-core": "0.1.7",
     "p5": "^0.9.0"
   },
   "devDependencies": {
-    "@types/p5": "^0.7.3",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "@typescript-eslint/parser": "^1.13.0",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.3.0",
+    "@types/p5": "^0.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "prettier": "^1.18.2",
     "rollup": "^1.23.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-typescript2": "^0.21.2",
+    "rollup-plugin-cleanup": "^3.1.1",
+    "rollup-plugin-typescript2": "^0.24.3",
     "terser": "^4.3.8",
     "typedoc": "^0.15.0",
     "typescript": "^3.6.4"
@@ -29,6 +29,10 @@
     "doc": "doc",
     "lib": "lib"
   },
+  "eslintIgnore": [
+    "*.min.js",
+    "*.min.mjs"
+  ],
   "files": [
     "lib",
     "types",
@@ -45,11 +49,9 @@
     "url": "git+https://github.com/fal-works/p5-extension.git"
   },
   "scripts": {
-    "build": "npm-run-all rollup typedoc eslint:es prettier:es terser:es eslint:umd prettier:umd terser:umd",
+    "build": "npm-run-all rollup typedoc eslint:es terser:umd eslint:umd terser:es",
     "eslint:es": "eslint --fix ./lib/p5-extension.mjs",
     "eslint:umd": "eslint --fix ./lib/p5-extension.js",
-    "prettier:es": "prettier --write ./lib/p5-extension.mjs",
-    "prettier:umd": "prettier --write ./lib/p5-extension.js",
     "rollup": "rollup -c",
     "terser:es": "terser ./lib/p5-extension.mjs -c -m -o ./lib/p5-extension.min.mjs --comments --ecma 6",
     "terser:umd": "terser ./lib/p5-extension.js -c -m -o ./lib/p5-extension.min.js --comments --ecma 6",
