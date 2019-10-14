@@ -31,7 +31,8 @@
   },
   "eslintIgnore": [
     "*.min.js",
-    "*.min.mjs"
+    "*.min.mjs",
+    "types/**/*.ts"
   ],
   "files": [
     "lib",
