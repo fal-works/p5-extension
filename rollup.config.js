@@ -1,9 +1,11 @@
 import typescript from "rollup-plugin-typescript2";
 import cleanup from "rollup-plugin-cleanup";
 
+const version = "0.1.7";
+const cleanBuild = false;
+
 const moduleName = "p5-extension";
 const umdName = "p5ex";
-const version = "0.1.7";
 const year = "2019";
 const description = `* An extension for p5.js.`;
 
@@ -44,7 +46,8 @@ export default {
   external: ["p5", "@fal-works/creative-coding-core"],
   plugins: [
     typescript({
-      useTsconfigDeclarationDir: true
+      useTsconfigDeclarationDir: true,
+      clean: cleanBuild
     }),
     cleanup({
       comments: /^\*\*/, // preserve multiline comments
