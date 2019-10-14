@@ -26,7 +26,6 @@
     "typescript": "^3.6.4"
   },
   "directories": {
-    "doc": "doc",
     "lib": "lib"
   },
   "eslintIgnore": [
@@ -36,8 +35,7 @@
   ],
   "files": [
     "lib",
-    "types",
-    "doc"
+    "types"
   ],
   "homepage": "https://github.com/fal-works/p5-extension#readme",
   "jsnext:main": "lib/p5-extension.mjs",
@@ -50,7 +48,7 @@
     "url": "git+https://github.com/fal-works/p5-extension.git"
   },
   "scripts": {
-    "build": "npm-run-all rollup typedoc eslint:es terser:umd eslint:umd terser:es",
+    "build": "npm-run-all rollup eslint:es terser:umd eslint:umd terser:es",
     "eslint:es": "eslint --fix ./lib/p5-extension.mjs",
     "eslint:umd": "eslint --fix ./lib/p5-extension.js",
     "rollup": "rollup -c",
