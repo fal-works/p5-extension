@@ -41,7 +41,7 @@ export const createScaledCanvas = (
   node: HTMLElement | string,
   logicalSize: RectangleSize.Unit,
   fittingOption?: FitBox.FittingOption | null,
-  renderer?: "p2d" | "webgl" | undefined
+  renderer?: "p2d" | "webgl"
 ): ScaledCanvas => {
   const maxCanvasSize = HtmlUtility.getElementSize(
     typeof node === "string" ? HtmlUtility.getElementOrBody(node) : node
