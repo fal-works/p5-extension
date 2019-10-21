@@ -15,7 +15,7 @@ export const setShake = (
   initialFactor: number,
   decayFactor: number,
   type: ShakeType = ShakeType.DEFAULT,
-  force: boolean = false
+  force = false
 ) => {
   if (decayFactor >= 1) return; // TODO: warning message
   if (!force && shakeFactor !== 0) return;
