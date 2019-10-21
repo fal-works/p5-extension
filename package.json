@@ -51,6 +51,7 @@
     "build": "npm-run-all rollup eslint:es terser:umd eslint:umd terser:es",
     "eslint:es": "eslint --fix ./lib/p5-extension.mjs",
     "eslint:umd": "eslint --fix ./lib/p5-extension.js",
+    "lint": "eslint ./src/**/*.ts",
     "rollup": "rollup -c",
     "terser:es": "terser ./lib/p5-extension.mjs -c -m -o ./lib/p5-extension.min.mjs --comments --ecma 6",
     "terser:umd": "terser ./lib/p5-extension.js -c -m -o ./lib/p5-extension.min.js --comments --ecma 6",
