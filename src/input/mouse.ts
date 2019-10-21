@@ -65,6 +65,14 @@ export const addEventHandler = (handler: Partial<EventHandler>) => {
   return createdHandler;
 };
 
+/**
+ * Removes `handler` from `eventHandlerStack`.
+ * @param handler
+ */
+export const removeEventHandler = (handler: EventHandler) => {
+  ArrayList.removeShiftElement(eventHandlerStack, handler);
+};
+
 const runCallback = (callback: EventCallback): boolean =>
   callback(logicalPosition);
 
