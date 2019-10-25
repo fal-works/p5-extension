@@ -1,4 +1,4 @@
-import { Random } from "@fal-works/creative-coding-core";
+import { Random } from "../ccc";
 import { p, canvas } from "../shared";
 
 export const enum ShakeType {

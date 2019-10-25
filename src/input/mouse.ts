@@ -1,7 +1,8 @@
-import { Mutable, Vector2D, ArrayList } from "@fal-works/creative-coding-core";
+import * as CCC from "@fal-works/creative-coding-core";
+import { ArrayList } from "../ccc";
 import { p, canvas } from "../shared";
 
-export const logicalPosition: Mutable<Vector2D.Unit> = { x: 0, y: 0 };
+export const logicalPosition: CCC.Vector2D.Mutable.Unit = { x: 0, y: 0 };
 
 export const updatePosition = () => {
   if (!canvas) return;
@@ -16,7 +17,7 @@ export const updatePosition = () => {
  * If this returns `false`, the subsequent handlers will not be checked.
  * @param mousePosition The logical position of the mouse cursor.
  */
-export type EventCallback = (mousePosition: Vector2D.Unit) => boolean;
+export type EventCallback = (mousePosition: CCC.Vector2D.Unit) => boolean;
 
 export const emptyCallback: EventCallback = () => true;
 export const stopCallback: EventCallback = () => false;

@@ -1,10 +1,6 @@
 import p5 from "p5";
-import {
-  HtmlUtility,
-  RectangleSize,
-  ArrayUtility,
-  FitBox
-} from "@fal-works/creative-coding-core";
+import * as CCC from "@fal-works/creative-coding-core";
+import { HtmlUtility, ArrayUtility } from "./ccc";
 import { setP5Instance, setCanvas } from "./shared";
 import { createScaledCanvas } from "./canvas";
 import { onSetup } from "./setup";
@@ -21,7 +17,7 @@ export interface SketchSettings {
   /**
    * The logical (i.e. non-scaled) size of the canvas, e.g. `{ width: 640, height: 480 }`;
    */
-  logicalCanvasSize: RectangleSize.Unit;
+  logicalCanvasSize: CCC.RectangleSize.Unit;
 
   /**
    * Function that will be called in `p.setup()` just after creating the canvas.
@@ -37,7 +33,7 @@ export interface SketchSettings {
   /**
    * Option for canvas scaling. Set `null` to disable scaling.
    */
-  fittingOption?: FitBox.FittingOption | null;
+  fittingOption?: CCC.FitBox.FittingOption | null;
 }
 
 /**

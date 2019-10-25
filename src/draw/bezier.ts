@@ -1,12 +1,9 @@
-import {
-  Bezier,
-  ArrayUtility,
-  Vector2D
-} from "@fal-works/creative-coding-core";
+import * as CCC from "@fal-works/creative-coding-core";
+import { ArrayUtility, Vector2D } from "../ccc";
 
 import { p } from "../shared";
 
-const drawPath = (path: Bezier.PathSegment) => {
+const drawPath = (path: CCC.Bezier.PathSegment) => {
   const { controlPoint1, controlPoint2, targetPoint } = path;
   p.bezierVertex(
     controlPoint1.x,
@@ -18,14 +15,14 @@ const drawPath = (path: Bezier.PathSegment) => {
   );
 };
 
-export const drawBezierCurve = (curve: Bezier.Curve): void => {
+export const drawBezierCurve = (curve: CCC.Bezier.Curve): void => {
   const { startPoint, paths } = curve;
 
   p.vertex(startPoint.x, startPoint.y);
   ArrayUtility.loop(paths, drawPath);
 };
 
-const drawControlLine = (vertex: Bezier.VertexProperty): void => {
+const drawControlLine = (vertex: CCC.Bezier.VertexProperty): void => {
   const { point, controlLine } = vertex;
   const { x, y } = point;
   const controlPointOffset = Vector2D.fromPolar(
@@ -39,7 +36,7 @@ const drawControlLine = (vertex: Bezier.VertexProperty): void => {
 };
 
 export const drawBezierControlLines = (
-  vertices: readonly Bezier.VertexProperty[]
+  vertices: readonly CCC.Bezier.VertexProperty[]
 ): void => {
   ArrayUtility.loop(vertices, drawControlLine);
 };

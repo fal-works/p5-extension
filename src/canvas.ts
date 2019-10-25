@@ -1,12 +1,7 @@
 import p5 from "p5";
-import {
-  RectangleSize,
-  RectangleRegion,
-  FitBox,
-  HtmlUtility,
-  Vector2D
-} from "@fal-works/creative-coding-core";
+import * as CCC from "@fal-works/creative-coding-core";
 
+import { RectangleRegion, FitBox, HtmlUtility, Vector2D } from "./ccc";
 import { p } from "./shared";
 import { drawScaled } from "./draw/transform";
 
@@ -21,10 +16,10 @@ export interface ScaledCanvas {
    */
   readonly scaleFactor: number;
 
-  readonly logicalSize: RectangleSize.Unit;
-  readonly logicalRegion: RectangleRegion.Unit;
+  readonly logicalSize: CCC.RectangleSize.Unit;
+  readonly logicalRegion: CCC.RectangleRegion.Unit;
   readonly drawScaled: (drawCallback: () => void) => void;
-  readonly logicalCenterPosition: Vector2D.Unit;
+  readonly logicalCenterPosition: CCC.Vector2D.Unit;
 }
 
 /**
@@ -39,8 +34,8 @@ export interface ScaledCanvas {
  */
 export const createScaledCanvas = (
   node: HTMLElement | string,
-  logicalSize: RectangleSize.Unit,
-  fittingOption?: FitBox.FittingOption | null,
+  logicalSize: CCC.RectangleSize.Unit,
+  fittingOption?: CCC.FitBox.FittingOption | null,
   renderer?: "p2d" | "webgl"
 ): ScaledCanvas => {
   const maxCanvasSize = HtmlUtility.getElementSize(

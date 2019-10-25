@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { round, INVERSE255 } from "../../ccc";
 import { p } from "../../shared";
 import { colorWithAlpha } from "./basic";
 
@@ -34,8 +35,6 @@ export const create = (color: p5.Color | string, resolution: number): Unit => {
   };
 };
 
-const inversed255 = 1 / 255;
-
 /**
  * Gets a `p5.Color` instance.
  * @param alphaColor
@@ -43,4 +42,4 @@ const inversed255 = 1 / 255;
  * @return A `p5.Color` instance.
  */
 export const get = (alphaColor: Unit, alpha: number): p5.Color =>
-  alphaColor.colors[Math.round(alphaColor.maxIndex * alpha * inversed255)];
+  alphaColor.colors[round(alphaColor.maxIndex * alpha * INVERSE255)];

@@ -1,22 +1,18 @@
+import * as CCC from "@fal-works/creative-coding-core";
+import { Vector2D, ONE_OVER_SQUARE_ROOT_TWO } from "../ccc";
 import { p } from "../shared";
-import {
-  Vector2D,
-  Mutable,
-  MutableVector2D
-} from "@fal-works/creative-coding-core";
 
 export let horizontalMove: -1 | 0 | 1 = 0;
 export let verticalMove: -1 | 0 | 1 = 0;
-export const unitVector: Mutable<Vector2D.Unit> = { x: 0, y: 0 };
+export const unitVector: CCC.Vector2D.Mutable.Unit = { x: 0, y: 0 };
 
 export let up = false;
 export let left = false;
 export let down = false;
 export let right = false;
 
-const ONE_FRAC_ROOT_TWO = 1 / Math.sqrt(2);
 const setVec = (x: number, y: number) =>
-  MutableVector2D.setCartesian(unitVector, x, y);
+  Vector2D.Mutable.setCartesian(unitVector, x, y);
 
 const update = () => {
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -27,13 +23,13 @@ const update = () => {
     case -1:
       switch (verticalMove) {
         case -1:
-          setVec(-ONE_FRAC_ROOT_TWO, -ONE_FRAC_ROOT_TWO);
+          setVec(-ONE_OVER_SQUARE_ROOT_TWO, -ONE_OVER_SQUARE_ROOT_TWO);
           break;
         case 0:
           setVec(-1, 0);
           break;
         case 1:
-          setVec(-ONE_FRAC_ROOT_TWO, ONE_FRAC_ROOT_TWO);
+          setVec(-ONE_OVER_SQUARE_ROOT_TWO, ONE_OVER_SQUARE_ROOT_TWO);
           break;
       }
       break;
@@ -53,13 +49,13 @@ const update = () => {
     case 1:
       switch (verticalMove) {
         case -1:
-          setVec(ONE_FRAC_ROOT_TWO, -ONE_FRAC_ROOT_TWO);
+          setVec(ONE_OVER_SQUARE_ROOT_TWO, -ONE_OVER_SQUARE_ROOT_TWO);
           break;
         case 0:
           setVec(1, 0);
           break;
         case 1:
-          setVec(ONE_FRAC_ROOT_TWO, ONE_FRAC_ROOT_TWO);
+          setVec(ONE_OVER_SQUARE_ROOT_TWO, ONE_OVER_SQUARE_ROOT_TWO);
           break;
       }
       break;
