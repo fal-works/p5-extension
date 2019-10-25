@@ -1,19 +1,15 @@
 import * as CCC from "@fal-works/creative-coding-core";
 export const {
   HtmlUtility,
-  RectangleSize,
-  ArrayUtility,
+  RectangleRegion,
   FitBox,
-  Vector2D,
+  ArrayUtility,
   ArrayList,
+  Vector2D,
   Numeric,
   MathConstants,
-  Angle,
-  RectangleRegion,
   Random,
-  Timer,
-  Easing,
-  Bezier
+  Angle
 } = CCC;
 
 export const { sin, cos } = Numeric;
