@@ -1,12 +1,8 @@
 import p5 from "p5";
-import {
-  Vector2D,
-  Angle,
-  Math as Math2
-} from "@fal-works/creative-coding-core";
+import { Vector2D, Angle } from "@fal-works/creative-coding-core";
 import { p } from "../shared";
 
-const TWO_PI = Math2.TWO_PI;
+const TWO_PI = Angle.TWO_PI;
 
 export const line = (from: Vector2D.Unit, to: Vector2D.Unit): p5 =>
   p.line(from.x, from.y, to.x, to.y);
@@ -16,7 +12,7 @@ export const lineWithMargin = (
   to: Vector2D.Unit,
   margin: number
 ): p5 => {
-  const angle = Angle.between(from, to);
+  const angle = Angle.betweenPoints(from, to);
   const offsetX = margin * Math.cos(angle);
   const offsetY = margin * Math.sin(angle);
 
