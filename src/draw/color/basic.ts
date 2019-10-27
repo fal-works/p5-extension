@@ -18,11 +18,11 @@ const emptyFunction = () => {};
 export const parseStroke = (
   color: p5.Color | string | null | undefined
 ): (() => void) => {
-  if (color === null) return () => p.noStroke();
+  if (color === null) return p.noStroke.bind(p);
   if (color === undefined) return emptyFunction;
 
   const colorObject = parseColor(color);
-  return () => p.stroke(colorObject);
+  return p.stroke.bind(p, colorObject);
 };
 
 /**
@@ -33,11 +33,11 @@ export const parseStroke = (
 export const parseFill = (
   color: p5.Color | string | null | undefined
 ): (() => void) => {
-  if (color === null) return () => p.noFill();
+  if (color === null) return p.noFill.bind(p);
   if (color === undefined) return emptyFunction;
 
   const colorObject = parseColor(color);
-  return () => p.fill(colorObject);
+  return p.fill.bind(p, colorObject);
 };
 
 /**
