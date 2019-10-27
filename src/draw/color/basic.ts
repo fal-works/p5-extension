@@ -51,3 +51,18 @@ export const colorWithAlpha = (color: p5.Color | string, alpha: number) => {
 
   return colorObject;
 };
+
+/**
+ * Creates a new color by reversing each RGB value of the given `color`.
+ * The alpha value will remain the same.
+ * Be sure that the color mode is set to RGB ∈ [0, 255].
+ * @param color
+ * @return New `p5.Color` instance with reversed RGB values.
+ */
+export const reverseColor = (color: p5.Color) =>
+  p.color(
+    255 - p.red(color),
+    255 - p.green(color),
+    255 - p.blue(color),
+    p.alpha(color)
+  );
