@@ -1,5 +1,5 @@
 import * as CCC from "@fal-works/creative-coding-core";
-import { ArrayList } from "../ccc";
+import { ArrayList, Vector2D } from "../ccc";
 import { p, canvas } from "../shared";
 import { drawTranslated } from "../draw";
 
@@ -12,6 +12,12 @@ export const updatePosition = () => {
   logicalPosition.x = factor * p.mouseX;
   logicalPosition.y = factor * p.mouseY;
 };
+
+/**
+ * Sets mouse position to the center point of the canvas.
+ */
+export const setCenter = () =>
+  Vector2D.Mutable.set(logicalPosition, canvas.logicalCenterPosition);
 
 /**
  * Callback function for handling mouse events.
