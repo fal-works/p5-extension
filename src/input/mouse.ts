@@ -1,6 +1,7 @@
 import * as CCC from "@fal-works/creative-coding-core";
 import { ArrayList } from "../ccc";
 import { p, canvas } from "../shared";
+import { drawTranslated } from "../draw";
 
 export const logicalPosition: CCC.Vector2D.Mutable.Unit = { x: 0, y: 0 };
 
@@ -120,3 +121,6 @@ export const onClicked = createOnEvent(Event.Clicked);
 export const onPressed = createOnEvent(Event.Pressed);
 export const onReleased = createOnEvent(Event.Released);
 export const onMoved = createOnEvent(Event.Moved);
+
+export const drawAtCursor = (callback: () => void) =>
+  drawTranslated(callback, logicalPosition.x, logicalPosition.y);
