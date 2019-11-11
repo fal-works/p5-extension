@@ -6,7 +6,7 @@ import { p } from "../../shared";
  * @param color
  */
 export const parseColor = (color: p5.Color | string): p5.Color =>
-  typeof color === "string" ? p.color(color) : Object.assign({}, color);
+  typeof color === "string" ? p.color(color) : Object.create(color);
 
 const emptyFunction = () => {};
 
@@ -42,14 +42,19 @@ export const parseFill = (
 
 /**
  * Creates a new `p5.Color` instance by replacing the alpha value with `alpha`.
+ * The color mode should be `RGB` when using this function.
  * @param color
  * @param alpha
  */
 export const colorWithAlpha = (color: p5.Color | string, alpha: number) => {
-  const colorObject = parseColor(color);
-  colorObject.setAlpha(alpha);
+  const colorObject = typeof color === "string" ? p.color(color) : color;
 
-  return colorObject;
+  return p.color(
+    p.red(colorObject),
+    p.green(colorObject),
+    p.blue(colorObject),
+    alpha
+  );
 };
 
 /**
