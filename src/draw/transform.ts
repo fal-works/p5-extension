@@ -104,7 +104,57 @@ let lastRotateAngle = 0;
 let lastScaleFactor = 1;
 
 /**
- * Runs `translate()` and `rotate()`.
+ * Runs `translate()`. The given arguments will be saved.
+ * @param x
+ * @param y
+ */
+export const translate = (x: number, y: number) => {
+  lastTranslateX = x;
+  lastTranslateY = y;
+  p.translate(x, y);
+};
+
+/**
+ * Applies the inverse of the last transformation by `translate()`.
+ */
+export const undoTranslate = () => {
+  p.translate(-lastTranslateX, -lastTranslateY);
+};
+
+/**
+ * Runs `rotate()`. The given argument will be saved.
+ * @param angle
+ */
+export const rotate = (angle: number) => {
+  lastRotateAngle = angle;
+  p.rotate(angle);
+};
+
+/**
+ * Applies the inverse of the last transformation by `rotate()`.
+ */
+export const undoRotate = () => {
+  p.rotate(-lastRotateAngle);
+};
+
+/**
+ * Runs `scale()`. The given argument will be saved.
+ * @param scaleFactor
+ */
+export const scale = (scaleFactor: number) => {
+  lastScaleFactor = scaleFactor;
+  p.scale(scaleFactor);
+};
+
+/**
+ * Applies the inverse of the last transformation by `scale()`.
+ */
+export const undoScale = () => {
+  p.scale(1 / lastScaleFactor);
+};
+
+/**
+ * Runs `translate()` and `rotate()`. The given arguments will be saved.
  * @param x
  * @param y
  * @param angle
@@ -126,7 +176,7 @@ export const undoTranslateRotate = () => {
 };
 
 /**
- * Runs `translate()` and `scale()`.
+ * Runs `translate()` and `scale()`. The given arguments will be saved.
  * @param x
  * @param y
  * @param scaleFactor
@@ -148,7 +198,27 @@ export const undoTranslateScale = () => {
 };
 
 /**
- * Runs `translate()`, `rotate()` and `scale()`.
+ * Runs `rotate()` and `scale()`. The given arguments will be saved.
+ * @param angle
+ * @param scaleFactor
+ */
+export const rotateScale = (angle: number, scaleFactor: number) => {
+  lastRotateAngle = angle;
+  lastScaleFactor = scaleFactor;
+  p.rotate(angle);
+  p.scale(scaleFactor);
+};
+
+/**
+ * Applies the inverse of the last transformation by `rotateScale()`.
+ */
+export const undoRotateScale = () => {
+  p.scale(1 / lastScaleFactor);
+  p.rotate(-lastRotateAngle);
+};
+
+/**
+ * Runs `translate()`, `rotate()` and `scale()`. The given arguments will be saved.
  * @param x
  * @param y
  * @param angle
