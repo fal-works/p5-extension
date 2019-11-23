@@ -53,7 +53,7 @@ export default {
       clean: cleanBuild
     }),
     cleanup({
-      comments: /^\*\*/, // preserve multiline comments
+      comments: /^\*\*/, // preserve jsdoc comments
       sourcemap: false,
       extensions: ["ts"]
     })
