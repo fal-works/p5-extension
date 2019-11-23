@@ -34,6 +34,11 @@ export interface SketchSettings {
    * Option for canvas scaling. Set `null` to disable scaling.
    */
   fittingOption?: CCC.FitBox.FittingOption | null;
+
+  /**
+   * Renderer, either "p2d" or "webgl".
+   */
+  renderer?: "p2d" | "webgl";
 }
 
 /**
@@ -53,7 +58,8 @@ export const startSketch = (settings: SketchSettings): void => {
         createScaledCanvas(
           htmlElement,
           settings.logicalCanvasSize,
-          settings.fittingOption
+          settings.fittingOption,
+          settings.renderer
         )
       );
       ArrayUtility.loop(onSetup, listener => listener(p));
