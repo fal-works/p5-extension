@@ -15,7 +15,7 @@ export interface Unit {
  * @param resolution
  */
 export const create = (color: p5.Color | string, resolution: number): Unit => {
-  const colors: (p5.Color)[] = new Array(resolution);
+  const colors: p5.Color[] = new Array(resolution);
   const maxIndex = resolution - 1;
 
   if (resolution === 1) {
