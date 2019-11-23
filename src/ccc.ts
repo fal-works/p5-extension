@@ -9,7 +9,8 @@ export const {
   Numeric,
   MathConstants,
   Random,
-  Angle
+  Angle,
+  HSV
 } = CCC;
 
 export const { sin, cos } = Numeric;

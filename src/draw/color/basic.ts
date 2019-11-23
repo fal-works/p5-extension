@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { HSV } from "../../ccc";
 import { p } from "../../shared";
 
 /**
@@ -71,3 +72,22 @@ export const reverseColor = (color: p5.Color) =>
     255 - p.blue(color),
     p.alpha(color)
   );
+
+/**
+ * Creates a new color from HSV values.
+ * Be sure that the color mode is set to RGB (red, green, blue, alpha ∈ [0, 255]).
+ * @param hue [0, 360]
+ * @param saturation [0, 1]
+ * @param value [0, 1]
+ * @param alpha [0, 255]
+ * @return New `p5.Color` instance.
+ */
+export const hsvColor = (
+  hue: number,
+  saturation: number,
+  value: number,
+  alpha = 255
+) => {
+  const [r, g, b] = HSV.toRGB([hue, saturation, value]);
+  return p.color(r, g, b, alpha);
+};
