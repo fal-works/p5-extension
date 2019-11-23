@@ -97,3 +97,83 @@ export const drawTransformed = (
   p.rotate(-angle);
   p.translate(-offsetX, -offsetY);
 };
+
+let lastTranslateX = 0;
+let lastTranslateY = 0;
+let lastRotateAngle = 0;
+let lastScaleFactor = 1;
+
+/**
+ * Runs `translate()` and `rotate()`.
+ * @param x
+ * @param y
+ * @param angle
+ */
+export const translateRotate = (x: number, y: number, angle: number) => {
+  lastTranslateX = x;
+  lastTranslateY = y;
+  lastRotateAngle = angle;
+  p.translate(x, y);
+  p.rotate(angle);
+};
+
+/**
+ * Applies the inverse of the last transformation by `translateRotate()`.
+ */
+export const undoTranslateRotate = () => {
+  p.rotate(-lastRotateAngle);
+  p.translate(-lastTranslateX, -lastTranslateY);
+};
+
+/**
+ * Runs `translate()` and `scale()`.
+ * @param x
+ * @param y
+ * @param scaleFactor
+ */
+export const translateScale = (x: number, y: number, scaleFactor: number) => {
+  lastTranslateX = x;
+  lastTranslateY = y;
+  lastScaleFactor = scaleFactor;
+  p.translate(x, y);
+  p.scale(scaleFactor);
+};
+
+/**
+ * Applies the inverse of the last transformation by `translateScale()`.
+ */
+export const undoTranslateScale = () => {
+  p.scale(1 / lastScaleFactor);
+  p.translate(-lastTranslateX, -lastTranslateY);
+};
+
+/**
+ * Runs `translate()`, `rotate()` and `scale()`.
+ * @param x
+ * @param y
+ * @param angle
+ * @param scaleFactor
+ */
+export const transform = (
+  x: number,
+  y: number,
+  angle: number,
+  scaleFactor: number
+) => {
+  lastTranslateX = x;
+  lastTranslateY = y;
+  lastRotateAngle = angle;
+  lastScaleFactor = scaleFactor;
+  p.translate(x, y);
+  p.rotate(angle);
+  p.scale(scaleFactor);
+};
+
+/**
+ * Applies the inverse of the last transformation by `transform()`.
+ */
+export const undoTransform = () => {
+  p.scale(1 / lastScaleFactor);
+  p.rotate(-lastRotateAngle);
+  p.translate(-lastTranslateX, -lastTranslateY);
+};
