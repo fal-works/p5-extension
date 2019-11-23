@@ -1,5 +1,5 @@
 import * as CCC from "@fal-works/creative-coding-core";
-import { ArrayList, Vector2D } from "../ccc";
+import { ArrayList, Vector2D, RectangleRegion } from "../ccc";
 import { p, canvas } from "../shared";
 import { drawTranslated } from "../draw";
 
@@ -130,3 +130,10 @@ export const onMoved = createOnEvent(Event.Moved);
 
 export const drawAtCursor = (callback: () => void) =>
   drawTranslated(callback, logicalPosition.x, logicalPosition.y);
+
+/**
+ * Checks if the mouse cursor position is contained in the region of the canvas.
+ * @return `true` if mouse cursor is on the canvas.
+ */
+export const isOnCanvas = () =>
+  RectangleRegion.containsPoint(canvas.logicalRegion, logicalPosition, 0);
