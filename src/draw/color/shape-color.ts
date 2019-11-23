@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { returnVoid } from "../../ccc";
 import { p } from "../../shared";
 import { parseStroke, parseFill } from "./basic";
 import * as AlphaColor from "./alpha-color";
@@ -7,8 +8,6 @@ export interface Unit {
   readonly stroke: (alhpa: number) => void;
   readonly fill: (alpha: number) => void;
 }
-
-const emptyFunction = () => {};
 
 /**
  * Creates a `ShapeColor` unit.
@@ -33,7 +32,7 @@ export const create = (
   if (strokeColor === null) {
     stroke = () => p.noStroke();
   } else if (strokeColor === undefined) {
-    stroke = emptyFunction;
+    stroke = returnVoid;
   } else {
     const strokeAlphaColor = AlphaColor.create(strokeColor, alphaResolution);
     stroke = alpha => p.stroke(AlphaColor.get(strokeAlphaColor, alpha));
@@ -43,7 +42,7 @@ export const create = (
   if (fillColor === null) {
     fill = () => p.noFill();
   } else if (fillColor === undefined) {
-    fill = emptyFunction;
+    fill = returnVoid;
   } else {
     const fillAlphaColor = AlphaColor.create(fillColor, alphaResolution);
     fill = alpha => p.fill(AlphaColor.get(fillAlphaColor, alpha));

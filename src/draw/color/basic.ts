@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { HSV } from "../../ccc";
+import { HSV, returnVoid } from "../../ccc";
 import { p } from "../../shared";
 
 /**
@@ -8,8 +8,6 @@ import { p } from "../../shared";
  */
 export const parseColor = (color: p5.Color | string): p5.Color =>
   typeof color === "string" ? p.color(color) : Object.create(color);
-
-const emptyFunction = () => {};
 
 /**
  * Creates a function that applies a stroke color.
@@ -20,7 +18,7 @@ export const parseStroke = (
   color: p5.Color | string | null | undefined
 ): (() => void) => {
   if (color === null) return p.noStroke.bind(p);
-  if (color === undefined) return emptyFunction;
+  if (color === undefined) return returnVoid;
 
   const colorObject = parseColor(color);
   return p.stroke.bind(p, colorObject);
@@ -35,7 +33,7 @@ export const parseFill = (
   color: p5.Color | string | null | undefined
 ): (() => void) => {
   if (color === null) return p.noFill.bind(p);
-  if (color === undefined) return emptyFunction;
+  if (color === undefined) return returnVoid;
 
   const colorObject = parseColor(color);
   return p.fill.bind(p, colorObject);

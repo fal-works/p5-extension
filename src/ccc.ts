@@ -10,10 +10,12 @@ export const {
   MathConstants,
   Random,
   Angle,
-  HSV
+  HSV,
+  ConstantFunction
 } = CCC;
 
 export const { sin, cos } = Numeric;
 export const { round } = Numeric;
 export const { ONE_OVER_SQUARE_ROOT_TWO, INVERSE255 } = MathConstants;
 export const { TWO_PI } = Angle;
+export const { returnVoid } = ConstantFunction;
