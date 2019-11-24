@@ -85,3 +85,14 @@ export const withChangeRate2 = (
   return (x: number, y: number) =>
     p.noise(offsetX + x, offsetY + y, (z += changeRate));
 };
+
+/**
+ * The expected average value of the result of p5 `noise()`.
+ * (May not be accurate)
+ */
+export const AVERAGE = ((repetition: number) => {
+  let accumulation = 0;
+  let n = 1;
+  for (let i = 0; i < repetition; i += 1) accumulation += n /= 2;
+  return accumulation / 2;
+})(10);
