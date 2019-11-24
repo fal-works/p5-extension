@@ -87,5 +87,5 @@ export const hsvColor = (
   alpha = 255
 ) => {
   const [r, g, b] = HSV.toRGB([hue, saturation, value]);
-  return p.color(r, g, b, alpha);
+  return p.color(r * 255, g * 255, b * 255, alpha);
 };
