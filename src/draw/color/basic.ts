@@ -89,3 +89,30 @@ export const hsvColor = (
   const [r, g, b] = HSV.toRGB([hue, saturation, value]);
   return p.color(r * 255, g * 255, b * 255, alpha);
 };
+
+/**
+ * Converts a `p5.Color` instance to an object representation.
+ * @param color
+ * @returns RGB values.
+ */
+export const colorToRGB = (color: p5.Color) => {
+  return {
+    r: p.red(color),
+    g: p.green(color),
+    b: p.blue(color)
+  };
+};
+
+/**
+ * Converts a `p5.Color` instance to an object representation.
+ * @param color
+ * @returns ARGB values.
+ */
+export const colorToARGB = (color: p5.Color) => {
+  return {
+    a: p.alpha(color),
+    r: p.red(color),
+    g: p.green(color),
+    b: p.blue(color)
+  };
+};
