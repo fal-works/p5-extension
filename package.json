@@ -1,7 +1,7 @@
 {
   "name": "@fal-works/p5-extension",
   "description": "An extension for p5.js.",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "author": "FAL",
   "bugs": {
     "url": "https://github.com/fal-works/p5-extension/issues"
