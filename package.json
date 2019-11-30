@@ -48,13 +48,16 @@
     "url": "git+https://github.com/fal-works/p5-extension.git"
   },
   "scripts": {
-    "build": "npm-run-all rollup eslint:es terser:umd eslint:umd terser:es",
-    "eslint:es": "eslint --fix ./lib/p5-extension.mjs",
-    "eslint:umd": "eslint --fix ./lib/p5-extension.js",
+    "build": "run-s build-es build-umd",
+    "build-es": "run-s build-es:rollup build-es:format build-es:minify",
+    "build-es:format": "eslint --fix ./lib/p5-extension.mjs",
+    "build-es:minify": "terser ./lib/p5-extension.mjs -c -m -o ./lib/p5-extension.min.mjs --comments --ecma 6",
+    "build-es:rollup": "rollup -c ./rollup-config-es.js",
+    "build-umd": "run-s build-umd:rollup build-umd:format build-umd:minify",
+    "build-umd:format": "eslint --fix ./lib/p5-extension.js",
+    "build-umd:minify": "terser ./lib/p5-extension.mjs -c -m -o ./lib/p5-extension.min.mjs --comments --ecma 6",
+    "build-umd:rollup": "rollup -c ./rollup-config-umd.js",
     "lint": "eslint --fix ./src/**/*.ts",
-    "rollup": "rollup -c",
-    "terser:es": "terser ./lib/p5-extension.mjs -c -m -o ./lib/p5-extension.min.mjs --comments --ecma 6",
-    "terser:umd": "terser ./lib/p5-extension.js -c -m -o ./lib/p5-extension.min.js --comments --ecma 6",
     "typedoc": "typedoc src"
   },
   "types": "types/p5-extension.d.ts"
