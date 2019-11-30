@@ -1,6 +1,6 @@
 import p5 from "p5";
 import * as CCC from "@fal-works/creative-coding-core";
-import { HtmlUtility, ArrayUtility } from "./ccc";
+import { HtmlUtility, loopArray } from "./ccc";
 import { setP5Instance, setCanvas } from "./shared";
 import { createScaledCanvas } from "./canvas";
 import { onSetup } from "./setup";
@@ -62,7 +62,7 @@ export const startSketch = (settings: SketchSettings): void => {
           settings.renderer
         )
       );
-      ArrayUtility.loop(onSetup, listener => listener(p));
+      loopArray(onSetup, listener => listener(p));
       onSetup.length = 0;
       settings.initialize();
     };

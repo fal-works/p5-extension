@@ -3,19 +3,26 @@ export const {
   HtmlUtility,
   RectangleRegion,
   FitBox,
-  ArrayUtility,
+  Arrays: {
+    FullName: { loopArray }
+  },
   ArrayList,
   Vector2D,
-  Numeric,
+  Vector2D: {
+    FullName: { vectorFromPolar }
+  },
+  Coordinates2D: { distance },
+  Numeric: { sin, cos, round, lerp, inverseLerp },
   MathConstants,
   Random,
+  Random: {
+    FullName: { randomValue }
+  },
   Angle,
   HSV,
   ConstantFunction
 } = CCC;
 
-export const { sin, cos } = Numeric;
-export const { round } = Numeric;
 export const { ONE_OVER_SQUARE_ROOT_TWO, INVERSE255 } = MathConstants;
 export const { TWO_PI } = Angle;
 export const { returnVoid } = ConstantFunction;

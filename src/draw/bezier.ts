@@ -1,5 +1,5 @@
 import * as CCC from "@fal-works/creative-coding-core";
-import { ArrayUtility, Vector2D } from "../ccc";
+import { loopArray, vectorFromPolar } from "../ccc";
 
 import { p } from "../shared";
 
@@ -19,13 +19,13 @@ export const drawBezierCurve = (curve: CCC.Bezier.Curve): void => {
   const { startPoint, paths } = curve;
 
   p.vertex(startPoint.x, startPoint.y);
-  ArrayUtility.loop(paths, drawPath);
+  loopArray(paths, drawPath);
 };
 
 const drawControlLine = (vertex: CCC.Bezier.VertexProperty): void => {
   const { point, controlLine } = vertex;
   const { x, y } = point;
-  const controlPointOffset = Vector2D.fromPolar(
+  const controlPointOffset = vectorFromPolar(
     0.5 * controlLine.length,
     controlLine.angle
   );
@@ -38,5 +38,5 @@ const drawControlLine = (vertex: CCC.Bezier.VertexProperty): void => {
 export const drawBezierControlLines = (
   vertices: readonly CCC.Bezier.VertexProperty[]
 ): void => {
-  ArrayUtility.loop(vertices, drawControlLine);
+  loopArray(vertices, drawControlLine);
 };

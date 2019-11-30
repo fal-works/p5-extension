@@ -1,4 +1,4 @@
-import { Random } from "../ccc";
+import { randomValue } from "../ccc";
 import { p } from "../shared";
 
 /**
@@ -6,7 +6,7 @@ import { p } from "../shared";
  * @param offset Random if not specified.
  * @return New function that runs `noise()` of p5.
  */
-export const withOffset = (offset = Random.value(4096)) => (x: number) =>
+export const withOffset = (offset = randomValue(4096)) => (x: number) =>
   p.noise(offset + x);
 
 /**
@@ -16,8 +16,8 @@ export const withOffset = (offset = Random.value(4096)) => (x: number) =>
  * @return New function that runs `noise()` of p5.
  */
 export const withOffset2 = (
-  offsetX = Random.value(4096),
-  offsetY = Random.value(256)
+  offsetX = randomValue(4096),
+  offsetY = randomValue(256)
 ) => (x: number, y: number) => p.noise(offsetX + x, offsetY + y);
 
 /**
@@ -28,9 +28,9 @@ export const withOffset2 = (
  * @return New function that runs `noise()` of p5.
  */
 export const withOffset3 = (
-  offsetX = Random.value(4096),
-  offsetY = Random.value(256),
-  offsetZ = Random.value(16)
+  offsetX = randomValue(4096),
+  offsetY = randomValue(256),
+  offsetZ = randomValue(16)
 ) => (x: number, y: number, z: number) =>
   p.noise(offsetX + x, offsetY + y, offsetZ + z);
 
@@ -42,7 +42,7 @@ export const withOffset3 = (
  */
 export const withChangeRate = (
   changeRate: number,
-  offset = Random.value(4096)
+  offset = randomValue(4096)
 ) => {
   let x = offset;
 
@@ -58,8 +58,8 @@ export const withChangeRate = (
  */
 export const withChangeRate1 = (
   changeRate: number,
-  offsetX = Random.value(4096),
-  offsetY = Random.value(256)
+  offsetX = randomValue(4096),
+  offsetY = randomValue(256)
 ) => {
   let y = offsetY;
 
@@ -76,9 +76,9 @@ export const withChangeRate1 = (
  */
 export const withChangeRate2 = (
   changeRate: number,
-  offsetX = Random.value(4096),
-  offsetY = Random.value(256),
-  offsetZ = Random.value(16)
+  offsetX = randomValue(4096),
+  offsetY = randomValue(256),
+  offsetZ = randomValue(16)
 ) => {
   let z = offsetZ;
 
