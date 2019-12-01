@@ -65,7 +65,7 @@ export const storePixels = (
  * @param green - The green value (0 - 255).
  * @param blue - The blue value (0 - 255).
  */
-export const createSetPixel = (renderer: p5 | p5.Graphics) => {
+export const createSetPixel = (renderer: p5 | p5.Graphics = p) => {
   const density = renderer.pixelDensity();
   const pixelWidth = renderer.width * density;
   const { pixels } = renderer;
@@ -110,7 +110,7 @@ export const createSetPixel = (renderer: p5 | p5.Graphics) => {
  * @param blue - The blue value (0 - 255).
  * @param alpha - The alpha value (0 - 255).
  */
-export const createSetPixelRow = (renderer: p5 | p5.Graphics) => {
+export const createSetPixelRow = (renderer: p5 | p5.Graphics = p) => {
   const density = renderer.pixelDensity();
   const pixelWidth = renderer.width * density;
   const { pixels } = renderer;
