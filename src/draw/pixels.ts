@@ -55,6 +55,15 @@ export const storePixels = (
   };
 };
 
+export type SetPixelFunction = (
+  logicalX: number,
+  logicalY: number,
+  red: number,
+  green: number,
+  blue: number,
+  alpha: number
+) => void;
+
 /**
  * Creates a function for setting color to the specified point.
  * Should be used in conjunction with loadPixels() and updatePixels().
@@ -65,19 +74,14 @@ export const storePixels = (
  * @param green - The green value (0 - 255).
  * @param blue - The blue value (0 - 255).
  */
-export const createSetPixel = (renderer: p5 | p5.Graphics = p) => {
+export const createSetPixel = (
+  renderer: p5 | p5.Graphics = p
+): SetPixelFunction => {
   const density = renderer.pixelDensity();
   const pixelWidth = renderer.width * density;
   const { pixels } = renderer;
 
-  return (
-    logicalX: number,
-    logicalY: number,
-    red: number,
-    green: number,
-    blue: number,
-    alpha: number
-  ) => {
+  return (logicalX, logicalY, red, green, blue, alpha) => {
     // physical X
     const startX = logicalX * density;
     const endX = startX + density;
@@ -100,6 +104,14 @@ export const createSetPixel = (renderer: p5 | p5.Graphics = p) => {
   };
 };
 
+export type SetPixelRowFunction = (
+  logicalY: number,
+  red: number,
+  green: number,
+  blue: number,
+  alpha: number
+) => void;
+
 /**
  * Creates a function for setting color to the specified row of pixels.
  * Should be used in conjunction with loadPixels() and updatePixels().
@@ -110,18 +122,14 @@ export const createSetPixel = (renderer: p5 | p5.Graphics = p) => {
  * @param blue - The blue value (0 - 255).
  * @param alpha - The alpha value (0 - 255).
  */
-export const createSetPixelRow = (renderer: p5 | p5.Graphics = p) => {
+export const createSetPixelRow = (
+  renderer: p5 | p5.Graphics = p
+): SetPixelRowFunction => {
   const density = renderer.pixelDensity();
   const pixelWidth = renderer.width * density;
   const { pixels } = renderer;
 
-  return (
-    logicalY: number,
-    red: number,
-    green: number,
-    blue: number,
-    alpha: number
-  ) => {
+  return (logicalY, red, green, blue, alpha) => {
     // physical Y
     const startY = logicalY * density;
     const endY = startY + density;
