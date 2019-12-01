@@ -1,20 +1,16 @@
 import p5 from "p5";
 import { p } from "../shared";
-import {
-  createSetPixel,
-  createSetPixelRow,
-  SetPixelFunction,
-  SetPixelRowFunction
-} from "./pixels";
+import { SetPixelFunction, SetPixelRowFunction } from "./internal-types";
+import { createSetPixel, createSetPixelRow } from "./pixels";
 
 /**
  * Draws texture on `renderer` by applying `runSetPixel` to each coordinate.
- * @param renderer - Instance of either p5 or p5.Graphics.
  * @param runSetPixel - A function that takes `setPixel`, `x`, `y` as arguments and internally runs `setPixel`.
+ * @param renderer - Instance of either p5 or p5.Graphics. Defaults to the shared `p`.
  */
 export const drawTexture = (
-  renderer: p5 | p5.Graphics,
-  runSetPixel: (setPixel: SetPixelFunction, x: number, y: number) => void
+  runSetPixel: (setPixel: SetPixelFunction, x: number, y: number) => void,
+  renderer: p5 | p5.Graphics = p
 ): void => {
   const { width, height } = renderer;
 
@@ -32,7 +28,8 @@ export const drawTexture = (
 
 /**
  * Creates a texture by applying `runSetPixel` to each coordinate of a new `p5.Graphics` instance.
- * @param renderer - Instance of either p5 or p5.Graphics.
+ * @param widht
+ * @param height
  * @param runSetPixel - A function that takes `setPixel`, `x`, `y` as arguments and internally runs `setPixel`.
  * @returns New `p5.Graphics` instance.
  */
@@ -42,19 +39,19 @@ export const createTexture = (
   runSetPixel: (setPixel: SetPixelFunction, x: number, y: number) => void
 ): p5.Graphics => {
   const graphics = p.createGraphics(width, height);
-  drawTexture(graphics, runSetPixel);
+  drawTexture(runSetPixel, graphics);
 
   return graphics;
 };
 
 /**
  * Draws texture on `renderer` by applying `runSetPixelRow` to each y coordinate.
- * @param renderer - Instance of either p5 or p5.Graphics.
  * @param runSetPixelRow - A function that takes `setPixelRow` and `y` as arguments and internally runs `setPixel`.
+ * @param renderer - Instance of either p5 or p5.Graphics. Defaults to the shared `p`.
  */
 export const drawTextureRowByRow = (
-  renderer: p5 | p5.Graphics,
-  runSetPixelRow: (setPixelRow: SetPixelRowFunction, y: number) => void
+  runSetPixelRow: (setPixelRow: SetPixelRowFunction, y: number) => void,
+  renderer: p5 | p5.Graphics = p
 ): void => {
   const { height } = renderer;
 
@@ -67,8 +64,9 @@ export const drawTextureRowByRow = (
 };
 
 /**
- * Creates a texture by applying `runSetPixelRow` to each y coordinate of a new `p5.Graphics` instance..
- * @param renderer - Instance of either p5 or p5.Graphics.
+ * Creates a texture by applying `runSetPixelRow` to each y coordinate of a new `p5.Graphics` instance.
+ * @param width
+ * @param height
  * @param runSetPixelRow - A function that takes `setPixelRow` and `y` as arguments and internally runs `setPixel`.
  * @returns New `p5.Graphics` instance.
  */
@@ -78,7 +76,7 @@ export const createTextureRowByRow = (
   runSetPixelRow: (setPixelRow: SetPixelRowFunction, y: number) => void
 ): p5.Graphics => {
   const graphics = p.createGraphics(width, height);
-  drawTextureRowByRow(graphics, runSetPixelRow);
+  drawTextureRowByRow(runSetPixelRow, graphics);
 
   return graphics;
 };

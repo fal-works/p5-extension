@@ -1,5 +1,6 @@
 import p5 from "p5";
 import { p } from "../shared";
+import { SetPixelFunction, SetPixelRowFunction } from "./internal-types";
 
 /**
  * Runs `drawCallback` and `p.loadPixels()`, then returns `p.pixels`.
@@ -55,15 +56,6 @@ export const storePixels = (
   };
 };
 
-export type SetPixelFunction = (
-  logicalX: number,
-  logicalY: number,
-  red: number,
-  green: number,
-  blue: number,
-  alpha: number
-) => void;
-
 /**
  * Creates a function for setting color to the specified point.
  * Should be used in conjunction with loadPixels() and updatePixels().
@@ -103,14 +95,6 @@ export const createSetPixel = (
     }
   };
 };
-
-export type SetPixelRowFunction = (
-  logicalY: number,
-  red: number,
-  green: number,
-  blue: number,
-  alpha: number
-) => void;
 
 /**
  * Creates a function for setting color to the specified row of pixels.
