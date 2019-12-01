@@ -14,9 +14,8 @@ export const {
   Coordinates2D: { distance },
   Numeric: { sin, cos, round, lerp, inverseLerp },
   MathConstants,
-  Random,
   Random: {
-    FullName: { randomValue }
+    FullName: { randomValue, randomFromAbsolute }
   },
   Angle,
   HSV,
