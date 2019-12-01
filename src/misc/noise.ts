@@ -4,7 +4,7 @@ import { p } from "../shared";
 /**
  * Creates a 1-dimensional noise function with offset parameter.
  * @param offset Random if not specified.
- * @return New function that runs `noise()` of p5.
+ * @returns New function that runs `noise()` of p5.
  */
 export const withOffset = (offset = randomValue(4096)) => (x: number) =>
   p.noise(offset + x);
@@ -13,7 +13,7 @@ export const withOffset = (offset = randomValue(4096)) => (x: number) =>
  * Creates a 2-dimensional noise function with offset parameters.
  * @param offsetX Random if not specified.
  * @param offsetY Random if not specified.
- * @return New function that runs `noise()` of p5.
+ * @returns New function that runs `noise()` of p5.
  */
 export const withOffset2 = (
   offsetX = randomValue(4096),
@@ -25,7 +25,7 @@ export const withOffset2 = (
  * @param offsetX Random if not specified.
  * @param offsetY Random if not specified.
  * @param offsetZ Random if not specified.
- * @return New function that runs `noise()` of p5.
+ * @returns New function that runs `noise()` of p5.
  */
 export const withOffset3 = (
   offsetX = randomValue(4096),
@@ -38,7 +38,7 @@ export const withOffset3 = (
  * Creates a noise function without arguments that returns every time an updated value.
  * @param changeRate
  * @param offset Random if not specified.
- * @return New function that runs `noise()` of p5, internally changing the `x` argument by `changeRate`.
+ * @returns New function that runs `noise()` of p5, internally changing the `x` argument by `changeRate`.
  */
 export const withChangeRate = (
   changeRate: number,
@@ -54,7 +54,7 @@ export const withChangeRate = (
  * @param changeRate
  * @param offsetX Random if not specified.
  * @param offsetY Random if not specified.
- * @return New function that runs `noise()` of p5, internally changing the `y` argument by `changeRate`.
+ * @returns New function that runs `noise()` of p5, internally changing the `y` argument by `changeRate`.
  */
 export const withChangeRate1 = (
   changeRate: number,
@@ -72,7 +72,7 @@ export const withChangeRate1 = (
  * @param offsetX Random if not specified.
  * @param offsetY Random if not specified.
  * @param offsetZ Random if not specified.
- * @return New function that runs `noise()` of p5, internally changing the `z` argument by `changeRate`.
+ * @returns New function that runs `noise()` of p5, internally changing the `z` argument by `changeRate`.
  */
 export const withChangeRate2 = (
   changeRate: number,

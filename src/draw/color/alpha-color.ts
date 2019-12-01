@@ -39,7 +39,7 @@ export const create = (color: p5.Color | string, resolution: number): Unit => {
  * Gets a `p5.Color` instance.
  * @param alphaColor
  * @param alpha Alpha value from `0` to `255`.
- * @return A `p5.Color` instance.
+ * @returns A `p5.Color` instance.
  */
 export const get = (alphaColor: Unit, alpha: number): p5.Color =>
   alphaColor.colors[round(alphaColor.maxIndex * alpha * INVERSE255)];

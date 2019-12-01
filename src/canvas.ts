@@ -30,7 +30,7 @@ export interface ScaledCanvas {
  * @param logicalSize
  * @param fittingOption No scaling if `null`.
  * @param renderer
- * @return A `ScaledCanvas` instance.
+ * @returns A `ScaledCanvas` instance.
  */
 export const createScaledCanvas = (
   node: HTMLElement | string,

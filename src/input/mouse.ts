@@ -64,7 +64,7 @@ export const bottomEventHandler: EventHandler = createEventHandler({});
 /**
  * Creates an `EventHandler` and adds it to `eventHandlerStack`.
  * @param handler
- * @return Created `EventHandler`.
+ * @returns Created `EventHandler`.
  */
 export const addEventHandler = (handler: Partial<EventHandler>) => {
   const createdHandler = createEventHandler(handler);
@@ -133,7 +133,7 @@ export const drawAtCursor = (callback: () => void) =>
 
 /**
  * Checks if the mouse cursor position is contained in the region of the canvas.
- * @return `true` if mouse cursor is on the canvas.
+ * @returns `true` if mouse cursor is on the canvas.
  */
 export const isOnCanvas = () =>
   RectangleRegion.containsPoint(canvas.logicalRegion, logicalPosition, 0);

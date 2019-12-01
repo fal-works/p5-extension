@@ -6,7 +6,7 @@ import { p } from "../shared";
  * The style and transformations will be restored by using `p.push()` and `p.pop()`.
  * @param p The p5 instance.
  * @param drawCallback
- * @return Pixels of the canvas after applying `drawCallback`.
+ * @returns Pixels of the canvas after applying `drawCallback`.
  */
 export const createPixels = (drawCallback: () => void | p5): number[] => {
   p.push();
