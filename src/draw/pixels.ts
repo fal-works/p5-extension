@@ -4,6 +4,8 @@ import { p } from "../shared";
 /**
  * Runs `drawCallback` and `p.loadPixels()`, then returns `p.pixels`.
  * The style and transformations will be restored by using `p.push()` and `p.pop()`.
+ *
+ * @deprecated Maybe `storePixels()` is better.
  * @param p The p5 instance.
  * @param drawCallback
  * @returns Pixels of the canvas after applying `drawCallback`.
@@ -20,11 +22,37 @@ export const createPixels = (drawCallback: () => void | p5): number[] => {
 /**
  * Replaces the whole pixels of the canvas.
  * Assigns the given pixels to `p.pixels` and calls `p.updatePixels()`.
+ *
+ * @deprecated Maybe `storePixels()` is better.
  * @param pixels
  */
 export const replaceCanvasPixels = (pixels: number[]): void => {
   p.pixels = pixels;
   p.updatePixels();
+};
+
+/**
+ * Stores the current canvas pixels and returns a function that restores them.
+ * @param renderer - Instance of either p5 or p5.Graphics. Defaults to shared `p`.
+ * @param prepareCallback - Function that will be run just before `loadPixels()`.
+ * @returns A function that restores the canvas pixels.
+ */
+export const storePixels = (
+  renderer: p5 | p5.Graphics = p,
+  prepareCallback?: (renderer: p5 | p5.Graphics) => void | p5
+) => {
+  if (prepareCallback) {
+    renderer.pop();
+    prepareCallback(renderer);
+    renderer.push();
+  }
+  renderer.loadPixels();
+  const storedPixels = renderer.pixels;
+
+  return () => {
+    renderer.pixels = storedPixels;
+    renderer.updatePixels();
+  };
 };
 
 /**
