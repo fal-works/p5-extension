@@ -1,6 +1,6 @@
 import p5 from "p5";
 import { HSV, returnVoid } from "../../ccc";
-import { p } from "../../shared";
+import { p, renderer } from "../../shared";
 
 /**
  * Creates a new `p5.Color` instance from another `p5.Color` or a color code string.
@@ -17,11 +17,11 @@ export const parseColor = (color: p5.Color | string): p5.Color =>
 export const parseStroke = (
   color: p5.Color | string | null | undefined
 ): (() => void) => {
-  if (color === null) return p.noStroke.bind(p);
+  if (color === null) return () => renderer.noStroke();
   if (color === undefined) return returnVoid;
 
   const colorObject = parseColor(color);
-  return p.stroke.bind(p, colorObject);
+  return () => renderer.stroke(colorObject);
 };
 
 /**
@@ -32,11 +32,11 @@ export const parseStroke = (
 export const parseFill = (
   color: p5.Color | string | null | undefined
 ): (() => void) => {
-  if (color === null) return p.noFill.bind(p);
+  if (color === null) return () => renderer.noFill();
   if (color === undefined) return returnVoid;
 
   const colorObject = parseColor(color);
-  return p.fill.bind(p, colorObject);
+  return () => renderer.fill(colorObject);
 };
 
 /**

@@ -1,5 +1,5 @@
 import { TWO_PI } from "../../ccc";
-import { p } from "../../shared";
+import { renderer } from "../../shared";
 
 type ArcMode = "chord" | "pie" | "open";
 
@@ -26,7 +26,7 @@ export const draw = (
 ) => {
   if (startRatio === endRatio) return;
 
-  p.arc(
+  renderer.arc(
     x,
     y,
     sizeX,

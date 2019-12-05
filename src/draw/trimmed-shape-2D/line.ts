@@ -1,4 +1,4 @@
-import { p } from "../../shared";
+import { renderer } from "../../shared";
 
 /**
  * Draws a trimmed line between [`x1`, `y1`] and [`x2`, `y2`] using the given trimming ratios.
@@ -19,7 +19,7 @@ export const draw = (
 ) => {
   const dx = x2 - x1;
   const dy = y2 - y1;
-  p.line(
+  renderer.line(
     x1 + startRatio * dx,
     y1 + startRatio * dy,
     x1 + endRatio * dx,
@@ -40,7 +40,7 @@ export const create = (x1: number, y1: number, x2: number, y2: number) => {
   const dy = y2 - y1;
 
   return (startRatio: number, endRatio: number) =>
-    p.line(
+    renderer.line(
       x1 + startRatio * dx,
       y1 + startRatio * dy,
       x1 + endRatio * dx,

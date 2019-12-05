@@ -12,11 +12,17 @@ export let p: p5;
 export let canvas: ScaledCanvas;
 
 /**
+ * The shared render.
+ */
+export let renderer: p5 | p5.Graphics;
+
+/**
  * Sets the given `p5` instance to be shared.
  * @param instance
  */
 export const setP5Instance = (instance: p5): void => {
   p = instance;
+  renderer = p;
 };
 
 /**
@@ -25,4 +31,13 @@ export const setP5Instance = (instance: p5): void => {
  */
 export const setCanvas = (scaledCanvas: ScaledCanvas): void => {
   canvas = scaledCanvas;
+};
+
+/**
+ * Sets the given `ScaledCanvas` instance to be shared.
+ * This will affect many drawing functions of p5-extension.
+ * @param rendererInstance
+ */
+export const setRenderer = (rendererInstance: p5 | p5.Graphics) => {
+  renderer = rendererInstance;
 };

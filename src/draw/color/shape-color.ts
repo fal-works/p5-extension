@@ -1,11 +1,11 @@
 import p5 from "p5";
 import { returnVoid } from "../../ccc";
-import { p } from "../../shared";
+import { renderer } from "../../shared";
 import { parseStroke, parseFill } from "./basic";
 import * as AlphaColor from "./alpha-color";
 
 export interface Unit {
-  readonly stroke: (alhpa: number) => void;
+  readonly stroke: (alpha: number) => void;
   readonly fill: (alpha: number) => void;
 }
 
@@ -30,22 +30,22 @@ export const create = (
 
   let stroke: (alpha: number) => void;
   if (strokeColor === null) {
-    stroke = () => p.noStroke();
+    stroke = () => renderer.noStroke();
   } else if (strokeColor === undefined) {
     stroke = returnVoid;
   } else {
     const strokeAlphaColor = AlphaColor.create(strokeColor, alphaResolution);
-    stroke = alpha => p.stroke(AlphaColor.get(strokeAlphaColor, alpha));
+    stroke = alpha => renderer.stroke(AlphaColor.get(strokeAlphaColor, alpha));
   }
 
   let fill: (alpha: number) => void;
   if (fillColor === null) {
-    fill = () => p.noFill();
+    fill = () => renderer.noFill();
   } else if (fillColor === undefined) {
     fill = returnVoid;
   } else {
     const fillAlphaColor = AlphaColor.create(fillColor, alphaResolution);
-    fill = alpha => p.fill(AlphaColor.get(fillAlphaColor, alpha));
+    fill = alpha => renderer.fill(AlphaColor.get(fillAlphaColor, alpha));
   }
 
   return { stroke, fill };
@@ -58,8 +58,8 @@ export const create = (
  */
 export const apply = (shapeColor: Unit, alpha: number): void => {
   if (alpha < 1) {
-    p.noStroke();
-    p.noFill();
+    renderer.noStroke();
+    renderer.noFill();
     return;
   }
 

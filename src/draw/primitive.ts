@@ -1,10 +1,10 @@
 import p5 from "p5";
 import * as CCC from "@fal-works/creative-coding-core";
 import { Angle, sin, cos, TWO_PI } from "../ccc";
-import { p } from "../shared";
+import { renderer } from "../shared";
 
 export const line = (from: CCC.Vector2D.Unit, to: CCC.Vector2D.Unit): p5 =>
-  p.line(from.x, from.y, to.x, to.y);
+  renderer.line(from.x, from.y, to.x, to.y);
 
 export const lineWithMargin = (
   from: CCC.Vector2D.Unit,
@@ -15,7 +15,7 @@ export const lineWithMargin = (
   const offsetX = margin * cos(angle);
   const offsetY = margin * sin(angle);
 
-  return p.line(
+  return renderer.line(
     from.x + offsetX,
     from.y + offsetY,
     to.x - offsetX,
@@ -24,9 +24,9 @@ export const lineWithMargin = (
 };
 
 export const lineAtOrigin = (destination: CCC.Vector2D.Unit): p5 =>
-  p.line(0, 0, destination.x, destination.y);
+  renderer.line(0, 0, destination.x, destination.y);
 
-export const circleAtOrigin = (size: number): p5 => p.circle(0, 0, size);
+export const circleAtOrigin = (size: number): p5 => renderer.circle(0, 0, size);
 
 export const arcAtOrigin = (
   width: number,
@@ -36,7 +36,7 @@ export const arcAtOrigin = (
   mode?: "chord" | "pie" | "open" | undefined,
   detail?: number | undefined
 ): p5 =>
-  p.arc(
+  renderer.arc(
     0,
     0,
     width,
@@ -54,4 +54,13 @@ export const circularArcAtOrigin = (
   mode?: "chord" | "pie" | "open" | undefined,
   detail?: number | undefined
 ): p5 =>
-  p.arc(0, 0, size, size, startRatio * TWO_PI, endRatio * TWO_PI, mode, detail);
+  renderer.arc(
+    0,
+    0,
+    size,
+    size,
+    startRatio * TWO_PI,
+    endRatio * TWO_PI,
+    mode,
+    detail
+  );

@@ -1,6 +1,6 @@
 import * as CCC from "@fal-works/creative-coding-core";
 import { lerp, inverseLerp, distance } from "../../ccc";
-import { p } from "../../shared";
+import { renderer } from "../../shared";
 
 interface Path {
   readonly from: CCC.Vector2D.Unit;
@@ -80,7 +80,7 @@ const getEndPathIndex = (endRatio: number, paths: Paths) => {
 /** For internal use in `createPolygon()`. */
 const drawVertexOnPath = (path: Path, lerpRatio: number) => {
   const { from, to } = path;
-  p.vertex(lerp(from.x, to.x, lerpRatio), lerp(from.y, to.y, lerpRatio));
+  renderer.vertex(lerp(from.x, to.x, lerpRatio), lerp(from.y, to.y, lerpRatio));
 };
 
 /**
@@ -105,15 +105,15 @@ export const create = (vertices: readonly CCC.Vector2D.Unit[]) => {
       paths[endPathIndex].nextRatio
     );
 
-    p.beginShape();
+    renderer.beginShape();
     drawVertexOnPath(paths[startPathIndex], startPathRatio);
     if (startPathIndex !== endPathIndex) {
       for (let i = startPathIndex; i < endPathIndex; i += 1) {
         const nextVertex = paths[i].to;
-        p.vertex(nextVertex.x, nextVertex.y);
+        renderer.vertex(nextVertex.x, nextVertex.y);
       }
     }
     drawVertexOnPath(paths[endPathIndex], endPathRatio);
-    p.endShape();
+    renderer.endShape();
   };
 };

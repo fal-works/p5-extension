@@ -1,11 +1,11 @@
 import * as CCC from "@fal-works/creative-coding-core";
 import { loopArray, vectorFromPolar } from "../ccc";
 
-import { p } from "../shared";
+import { renderer } from "../shared";
 
 const drawPath = (path: CCC.Bezier.PathSegment) => {
   const { controlPoint1, controlPoint2, targetPoint } = path;
-  p.bezierVertex(
+  renderer.bezierVertex(
     controlPoint1.x,
     controlPoint1.y,
     controlPoint2.x,
@@ -18,7 +18,7 @@ const drawPath = (path: CCC.Bezier.PathSegment) => {
 export const drawBezierCurve = (curve: CCC.Bezier.Curve): void => {
   const { startPoint, paths } = curve;
 
-  p.vertex(startPoint.x, startPoint.y);
+  renderer.vertex(startPoint.x, startPoint.y);
   loopArray(paths, drawPath);
 };
 
@@ -32,7 +32,7 @@ const drawControlLine = (vertex: CCC.Bezier.VertexProperty): void => {
   const controlX = controlPointOffset.x;
   const controlY = controlPointOffset.y;
 
-  p.line(x - controlX, y - controlY, x + controlX, y + controlY);
+  renderer.line(x - controlX, y - controlY, x + controlX, y + controlY);
 };
 
 export const drawBezierControlLines = (
