@@ -3,21 +3,40 @@ import { ArrayList, Vector2D, RectangleRegion } from "../ccc";
 import { p, canvas } from "../shared";
 import { drawTranslated } from "../draw";
 
-export const logicalPosition: CCC.Vector2D.Mutable.Unit = { x: 0, y: 0 };
+type Position = CCC.Vector2D.Mutable.Unit;
+
+/**
+ * Logical position (independent of the canvas scale factor) of the mouse.
+ */
+export const position: Position = { x: 0, y: 0 };
+
+/**
+ * Logical position (independent of the canvas scale factor) of the mouse
+ * at the previous frame.
+ */
+export const previousPosition: Position = { x: 0, y: 0 };
+
+/**
+ * Logical displacement (independent of the canvas scale factor) of the mouse
+ * from the previous frame.
+ */
+export const displacement: Position = { x: 0, y: 0 };
 
 export const updatePosition = () => {
   if (!canvas) return;
 
   const factor = 1 / canvas.scaleFactor;
-  logicalPosition.x = factor * p.mouseX;
-  logicalPosition.y = factor * p.mouseY;
+
+  Vector2D.Mutable.set(previousPosition, position); // update previous
+  Vector2D.Mutable.setCartesian(position, factor * p.mouseX, factor * p.mouseY); // update current
+  Vector2D.Assign.subtract(position, previousPosition, displacement); // update displacement
 };
 
 /**
  * Sets mouse position to the center point of the canvas.
  */
 export const setCenter = () =>
-  Vector2D.Mutable.set(logicalPosition, canvas.logicalCenterPosition);
+  Vector2D.Mutable.set(position, canvas.logicalCenterPosition);
 
 /**
  * Callback function for handling mouse events.
@@ -81,8 +100,7 @@ export const removeEventHandler = (handler: EventHandler) => {
   ArrayList.removeShiftElement(eventHandlerStack, handler);
 };
 
-const runCallback = (callback: EventCallback): boolean =>
-  callback(logicalPosition);
+const runCallback = (callback: EventCallback): boolean => callback(position);
 
 const enum Event {
   Clicked,
@@ -129,11 +147,11 @@ export const onReleased = createOnEvent(Event.Released);
 export const onMoved = createOnEvent(Event.Moved);
 
 export const drawAtCursor = (callback: () => void) =>
-  drawTranslated(callback, logicalPosition.x, logicalPosition.y);
+  drawTranslated(callback, position.x, position.y);
 
 /**
  * Checks if the mouse cursor position is contained in the region of the canvas.
  * @returns `true` if mouse cursor is on the canvas.
  */
 export const isOnCanvas = () =>
-  RectangleRegion.containsPoint(canvas.logicalRegion, logicalPosition, 0);
+  RectangleRegion.containsPoint(canvas.logicalRegion, position, 0);
