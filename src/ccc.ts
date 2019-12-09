@@ -9,17 +9,19 @@ export const {
   ArrayList,
   Vector2D,
   Vector2D: {
-    FullName: { vectorFromPolar }
+    FullName: { vectorFromPolar, copyVector, zeroVector, constrainVector }
   },
   Coordinates2D: { distance },
-  Numeric: { sin, cos, round, lerp, inverseLerp },
+  Numeric: { sin, cos, round, lerp, inverseLerp, max2 },
   MathConstants,
   Random: {
     FullName: { randomValue, randomFromAbsolute }
   },
   Angle,
   HSV,
-  ConstantFunction
+  ConstantFunction,
+  Tween,
+  Timer
 } = CCC;
 
 export const { ONE_OVER_SQUARE_ROOT_TWO, INVERSE255 } = MathConstants;
