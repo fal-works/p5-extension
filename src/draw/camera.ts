@@ -13,23 +13,23 @@ import {
 import { drawTranslatedAndScaled } from "./transform";
 
 export interface Unit {
-  /** The boundary in which `focusPoint` should be constrained according to the current value of `zoomFactor`. */
-  readonly regionBoundary: CCC.RectangleRegion.Unit;
-
   /** The size of the rectangle in which the content will be displayed. */
   readonly displaySize: CCC.RectangleSize.Unit;
 
   /** The top-left point of the rectangle in which the content will be displayed. */
   readonly displayPosition: CCC.Vector2D.Mutable.Unit;
 
-  /** The logical coordinates of the point on which the camera is focusing. */
-  readonly focusPoint: CCC.Vector2D.Mutable.Unit;
+  /** The boundary in which `focusPoint` should be constrained according to the current value of `zoomFactor`. */
+  readonly regionBoundary: CCC.RectangleRegion.Unit;
 
   /**
    * The min/max values of `zoomFactor`.
    * `zoomFactorRange.start` is set to at least the value where the entire region fits to `displaySize`.
    */
   readonly zoomFactorRange: CCC.Range;
+
+  /** The logical coordinates of the point on which the camera is focusing. */
+  readonly focusPoint: CCC.Vector2D.Mutable.Unit;
 
   /** Current zoom factor. */
   zoomFactor: number;
@@ -80,11 +80,6 @@ export const create = (parameters: {
     : Infinity;
 
   return {
-    focusPoint: initialFocusPoint
-      ? copyVector(initialFocusPoint)
-      : regionBoundary
-      ? RectangleRegion.getCenterPoint(regionBoundary)
-      : copyVector(zeroVector),
     displaySize,
     displayPosition: copyVector(initialDisplayPosition || zeroVector),
     regionBoundary,
@@ -92,6 +87,11 @@ export const create = (parameters: {
       start: zoomFactorRangeStart,
       end: zoomFactorRangeEnd
     },
+    focusPoint: initialFocusPoint
+      ? copyVector(initialFocusPoint)
+      : regionBoundary
+      ? RectangleRegion.getCenterPoint(regionBoundary)
+      : copyVector(zeroVector),
     zoomFactor: 1,
     zoomTimer: Timer.dummy,
     targetZoomFactor: undefined
