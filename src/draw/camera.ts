@@ -45,9 +45,6 @@ export interface Unit {
   targetZoomFactor: number | undefined;
 }
 
-export let debugMode = true;
-export const setDebugMode = (flag = true) => (debugMode = flag);
-
 export const create = (parameters: {
   displaySize: CCC.RectangleSize.Unit;
   regionBoundary?: CCC.RectangleRegion.Unit;
@@ -191,7 +188,7 @@ export const tweenZoom = (
 /**
  * Converts `screenPosition` to the logical position in the world that is currently displayed by `camera`.
  * @param camera
- * @param worldPosition
+ * @param screenPosition
  * @param target The vector to receive the result.
  * @returns The `target` vector.
  */
