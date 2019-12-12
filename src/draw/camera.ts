@@ -3,6 +3,7 @@ import {
   copyVector,
   zeroVector,
   constrainVector,
+  setCartesian,
   RectangleRegion,
   FitBox,
   max2,
@@ -187,4 +188,55 @@ export const tweenZoom = (
   camera.targetZoomFactor = endZoomFactor;
 
   return (camera.zoomTimer = timer);
+};
+
+/**
+ * Converts `screenPosition` to the logical position in the world that is currently displayed by `camera`.
+ * @param camera
+ * @param worldPosition
+ * @param target The vector to receive the result.
+ * @returns The `target` vector.
+ */
+export const getWorldPosition = (
+  camera: Unit,
+  screenPosition: CCC.Vector2D.Unit,
+  target: CCC.Vector2D.Mutable.Unit
+) => {
+  const { displaySize, displayPosition, focusPoint, zoomFactor } = camera;
+  const inverseFactor = 1 / zoomFactor;
+
+  return setCartesian(
+    target,
+    inverseFactor *
+      (screenPosition.x - (displayPosition.x + displaySize.width / 2)) +
+      focusPoint.x,
+    inverseFactor *
+      (screenPosition.y - (displayPosition.y + displaySize.height / 2)) +
+      focusPoint.y
+  );
+};
+
+/**
+ * Converts `worldPosition` to the actual position on the screen.
+ * @param camera
+ * @param worldPosition
+ * @param target The vector to receive the result.
+ * @returns The `target` vector.
+ */
+export const getScreenPosition = (
+  camera: Unit,
+  worldPosition: CCC.Vector2D.Unit,
+  target: CCC.Vector2D.Mutable.Unit
+) => {
+  const { displaySize, displayPosition, focusPoint, zoomFactor } = camera;
+
+  return setCartesian(
+    target,
+    displayPosition.x +
+      displaySize.width / 2 +
+      zoomFactor * (worldPosition.x - focusPoint.x),
+    displayPosition.y +
+      displaySize.height / 2 +
+      zoomFactor * (worldPosition.y - focusPoint.y)
+  );
 };

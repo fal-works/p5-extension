@@ -9,7 +9,13 @@ export const {
   ArrayList,
   Vector2D,
   Vector2D: {
-    FullName: { vectorFromPolar, copyVector, zeroVector, constrainVector }
+    FullName: {
+      vectorFromPolar,
+      copyVector,
+      zeroVector,
+      constrainVector,
+      setCartesian
+    }
   },
   Coordinates2D: { distance },
   Numeric: { sin, cos, round, lerp, inverseLerp, max2, clamp },
