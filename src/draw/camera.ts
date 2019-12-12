@@ -7,7 +7,8 @@ import {
   FitBox,
   max2,
   Tween,
-  Timer
+  Timer,
+  clamp
 } from "../ccc";
 import { drawTranslatedAndScaled } from "./transform";
 
@@ -24,8 +25,11 @@ export interface Unit {
   /** The logical coordinates of the point on which the camera is focusing. */
   readonly focusPoint: CCC.Vector2D.Mutable.Unit;
 
-  /** The zoom factor where the entire region fits to `displaySize`. */
-  readonly zoomFactorThreshold: number;
+  /**
+   * The min/max values of `zoomFactor`.
+   * `zoomFactorRange.start` is set to at least the value where the entire region fits to `displaySize`.
+   */
+  readonly zoomFactorRange: CCC.Range;
 
   /** Current zoom factor. */
   zoomFactor: number;
@@ -44,28 +48,50 @@ export let debugMode = true;
 export const setDebugMode = (flag = true) => (debugMode = flag);
 
 export const create = (parameters: {
-  regionBoundary: CCC.RectangleRegion.Unit;
   displaySize: CCC.RectangleSize.Unit;
+  regionBoundary?: CCC.RectangleRegion.Unit;
   initialDisplayPosition?: CCC.Vector2D.Unit;
   initialFocusPoint?: CCC.Vector2D.Unit;
+  minZoomFactor?: number;
+  maxZoomFactor?: number;
 }): Unit => {
   const {
-    regionBoundary,
     displaySize,
     initialDisplayPosition,
-    initialFocusPoint
+    initialFocusPoint,
+    minZoomFactor,
+    maxZoomFactor
   } = parameters;
 
-  const regionSize = RectangleRegion.getSize(regionBoundary);
+  const regionBoundary = parameters.regionBoundary || {
+    topLeft: { x: -Infinity, y: -Infinity },
+    rightBottom: { x: Infinity, y: Infinity }
+  };
+
+  const zoomFactorThreshold = FitBox.calculateScaleFactor(
+    RectangleRegion.getSize(regionBoundary),
+    displaySize
+  );
+  const zoomFactorRangeStart = minZoomFactor
+    ? max2(zoomFactorThreshold, minZoomFactor)
+    : zoomFactorThreshold;
+  const zoomFactorRangeEnd = maxZoomFactor
+    ? max2(zoomFactorRangeStart, maxZoomFactor)
+    : Infinity;
 
   return {
     focusPoint: initialFocusPoint
       ? copyVector(initialFocusPoint)
-      : RectangleRegion.getCenterPoint(regionBoundary),
+      : regionBoundary
+      ? RectangleRegion.getCenterPoint(regionBoundary)
+      : copyVector(zeroVector),
     displaySize,
     displayPosition: copyVector(initialDisplayPosition || zeroVector),
     regionBoundary,
-    zoomFactorThreshold: FitBox.calculateScaleFactor(regionSize, displaySize),
+    zoomFactorRange: {
+      start: zoomFactorRangeStart,
+      end: zoomFactorRangeEnd
+    },
     zoomFactor: 1,
     zoomTimer: Timer.dummy,
     targetZoomFactor: undefined
@@ -121,7 +147,12 @@ export const stopTweenZoom = (camera: Unit) => {
  * @param zoomFactor
  */
 export const setZoom = (camera: Unit, zoomFactor: number) => {
-  const newZoomFactor = max2(zoomFactor, camera.zoomFactorThreshold);
+  const { zoomFactorRange } = camera;
+  const newZoomFactor = clamp(
+    zoomFactor,
+    zoomFactorRange.start,
+    zoomFactorRange.end
+  );
   camera.zoomFactor = newZoomFactor;
 
   stopTweenZoom(camera);
@@ -140,7 +171,13 @@ export const tweenZoom = (
   targetZoomFactor: number,
   easing?: CCC.Easing.FunctionUnit
 ) => {
-  const endZoomFactor = max2(targetZoomFactor, camera.zoomFactorThreshold);
+  const { zoomFactorRange } = camera;
+  const endZoomFactor = clamp(
+    targetZoomFactor,
+    zoomFactorRange.start,
+    zoomFactorRange.end
+  );
+
   const timer = Tween.create(v => (camera.zoomFactor = v), 60, {
     start: camera.zoomFactor,
     end: endZoomFactor,

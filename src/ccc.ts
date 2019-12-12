@@ -12,7 +12,7 @@ export const {
     FullName: { vectorFromPolar, copyVector, zeroVector, constrainVector }
   },
   Coordinates2D: { distance },
-  Numeric: { sin, cos, round, lerp, inverseLerp, max2 },
+  Numeric: { sin, cos, round, lerp, inverseLerp, max2, clamp },
   MathConstants,
   Random: {
     FullName: { randomValue, randomFromAbsolute }
