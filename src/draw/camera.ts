@@ -64,10 +64,8 @@ export const create = (parameters: {
     maxZoomFactor
   } = parameters;
 
-  const regionBoundary = parameters.regionBoundary || {
-    topLeft: { x: -Infinity, y: -Infinity },
-    rightBottom: { x: Infinity, y: Infinity }
-  };
+  const regionBoundary =
+    parameters.regionBoundary || RectangleRegion.createInfinite();
 
   const zoomFactorThreshold = FitBox.calculateScaleFactor(
     RectangleRegion.getSize(regionBoundary),
