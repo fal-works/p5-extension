@@ -107,8 +107,6 @@ export const removeEventHandler = (handler: EventHandler) => {
   ArrayList.removeShiftElement(eventHandlerStack, handler);
 };
 
-const runCallback = (callback: EventCallback): boolean => callback(position);
-
 const enum Event {
   Clicked,
   Pressed,
@@ -129,22 +127,28 @@ const createGetCallback = (event: Event) => {
   }
 };
 
-const createOnEvent = (event: Event) => {
+const createRunCallback = (event: Event) => {
   const getCallback = createGetCallback(event);
 
+  return (handler: EventHandler) => getCallback(handler)(position);
+};
+
+const createOnEvent = (event: Event) => {
+  const runCallback = createRunCallback(event);
+
   return () => {
-    const runNext = runCallback(getCallback(topEventHandler));
+    const runNext = runCallback(topEventHandler);
     if (!runNext) return;
 
     const handlers = eventHandlerStack.array;
     let index = eventHandlerStack.size - 1;
     while (index >= 0) {
-      const runNext = runCallback(getCallback(handlers[index]));
+      const runNext = runCallback(handlers[index]);
       if (!runNext) break;
       index -= 1;
     }
 
-    runCallback(getCallback(bottomEventHandler));
+    runCallback(bottomEventHandler);
   };
 };
 
