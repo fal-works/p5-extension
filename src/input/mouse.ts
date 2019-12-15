@@ -107,6 +107,9 @@ export const removeEventHandler = (handler: EventHandler) => {
   ArrayList.removeShiftElement(eventHandlerStack, handler);
 };
 
+/**
+ * A type of mouse events, e.g. `Clicked`, `Pressed` etc.
+ */
 const enum Event {
   Clicked,
   Pressed,
@@ -114,6 +117,10 @@ const enum Event {
   Moved
 }
 
+/**
+ * @param event
+ * @returns A function that gets the callback function (corresponding to `event`) from `handler`.
+ */
 const createGetCallback = (event: Event) => {
   switch (event) {
     case Event.Clicked:
@@ -127,12 +134,20 @@ const createGetCallback = (event: Event) => {
   }
 };
 
+/**
+ * @param event
+ * @returns A function that gets the callback function (corresponding to `event`) from `handler` and runs it.
+ */
 const createRunCallback = (event: Event) => {
   const getCallback = createGetCallback(event);
 
   return (handler: EventHandler) => getCallback(handler)(position);
 };
 
+/**
+ * @param event
+ * @returns A function that should be called by `event` and runs registered event handlers.
+ */
 const createOnEvent = (event: Event) => {
   const runCallback = createRunCallback(event);
 
@@ -157,6 +172,10 @@ export const onPressed = createOnEvent(Event.Pressed);
 export const onReleased = createOnEvent(Event.Released);
 export const onMoved = createOnEvent(Event.Moved);
 
+/**
+ * Runs `callback` translated with the logical mouse position.
+ * @param callback
+ */
 export const drawAtCursor = (callback: () => void) =>
   drawTranslated(callback, position.x, position.y);
 
