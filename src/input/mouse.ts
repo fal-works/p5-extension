@@ -48,6 +48,9 @@ export type EventCallback = (mousePosition: CCC.Vector2D.Unit) => boolean;
 export const emptyCallback: EventCallback = () => true;
 export const stopCallback: EventCallback = () => false;
 
+/**
+ * A set of functions that will be run triggered by each mouse event.
+ */
 export interface EventHandler {
   onClicked: EventCallback;
   onPressed: EventCallback;
@@ -67,16 +70,20 @@ export const createEventHandler = (
 };
 
 /**
- * The EventHandler that will be checked first by `onClicked` and other similar functions.
- * Set a callback that returns `false` here for ignoring other handlers in `handlerStack`.
+ * The `EventHandler` that will be called first by any mouse event.
+ * Set a callback that returns `false` here for ignoring subsequent handlers.
  */
 export const topEventHandler: EventHandler = createEventHandler({});
 
+/**
+ * A stack of `EventHandler` objects that will be called by any mouse event.
+ * Set a callback that returns `false` for ignoring subsequent handlers.
+ */
 export const eventHandlerStack = ArrayList.create<EventHandler>(32);
 
 /**
- * The EventHandler that will be checked last by `onClicked` and other similar functions
- * after checking all handlers in `eventHandlerStack`.
+ * The `EventHandler` that will be called last by any mouse event
+ * after checking the handlers in `eventHandlerStack`.
  */
 export const bottomEventHandler: EventHandler = createEventHandler({});
 
