@@ -47,21 +47,37 @@ export interface Listener {
 }
 
 /**
+ * Parameters for `createListener`.
+ */
+export interface ListenerCallbacks {
+  /**
+   * A function that returns `true` if the mouse cursor is on the listening object.
+   */
+  isMouseOver?: (mousePosition: CCC.Vector2D.Unit) => boolean;
+
+  onClicked?: Handler;
+  onPressed?: Handler;
+  onReleased?: Handler;
+  onMoved?: Handler;
+}
+
+const defaultListener: Listener = {
+  isMouseOver: ConstantFunction.returnTrue,
+  onClicked: emptyHandler,
+  onPressed: emptyHandler,
+  onReleased: emptyHandler,
+  onMoved: emptyHandler,
+  active: true,
+  mouseOver: false
+};
+
+/**
  * Creates a `Listener` that will be referred by each mouse event.
- * @param handlers
+ * @param callbacks
  * @returns A `Listener` object.
  */
-export const createListener = (handlers: Partial<Listener>): Listener => {
-  return {
-    isMouseOver: handlers.onClicked || ConstantFunction.returnTrue,
-    onClicked: handlers.onClicked || emptyHandler,
-    onPressed: handlers.onPressed || emptyHandler,
-    onReleased: handlers.onReleased || emptyHandler,
-    onMoved: handlers.onMoved || emptyHandler,
-    active: true,
-    mouseOver: false
-  };
-};
+export const createListener = (callbacks: ListenerCallbacks): Listener =>
+  Object.assign({}, defaultListener, callbacks);
 
 /**
  * The `Listener` that will be called first by any mouse event.
