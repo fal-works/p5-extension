@@ -179,7 +179,7 @@ const createOnEvent = (type: Type) => {
     let index = listenerStack.size - 1;
     while (index >= 0) {
       const runNext = runHandler(listeners[index]);
-      if (!runNext) break; // return??
+      if (!runNext) return;
       index -= 1;
     }
 
