@@ -32,6 +32,8 @@ export interface Listener {
   onPressed: Handler;
   onReleased: Handler;
   onMoved: Handler;
+  onEnter: Handler;
+  onLeave: Handler;
 
   /**
    * A `Listener` listens for mouse events only if both `mouseOver` and `active` are `true`.
@@ -59,6 +61,8 @@ export interface ListenerCallbacks {
   onPressed?: Handler;
   onReleased?: Handler;
   onMoved?: Handler;
+  onEnter?: Handler;
+  onLeave?: Handler;
 }
 
 const defaultListener: Listener = {
@@ -67,6 +71,8 @@ const defaultListener: Listener = {
   onPressed: emptyHandler,
   onReleased: emptyHandler,
   onMoved: emptyHandler,
+  onEnter: emptyHandler,
+  onLeave: emptyHandler,
   active: true,
   mouseOver: false
 };
@@ -195,11 +201,19 @@ export const onMoved = () => {
     if (!listener.active) return true;
 
     if (!listener.isMouseOver(Mouse.position)) {
-      listener.mouseOver = false;
+      if (listener.mouseOver) {
+        listener.mouseOver = false;
+        return listener.onLeave(Mouse.position);
+      }
       return true;
     }
 
-    listener.mouseOver = true;
+    if (!listener.mouseOver) {
+      listener.mouseOver = true;
+      const onEnterResult = listener.onEnter(Mouse.position);
+      return listener.onMoved(Mouse.position) && onEnterResult;
+    }
+
     return listener.onMoved(Mouse.position);
   };
 
