@@ -22,6 +22,10 @@ export const previousPosition: Position = { x: 0, y: 0 };
  */
 export const displacement: Position = { x: 0, y: 0 };
 
+/**
+ * Updates `position`, `previousPosition` and `displacement` of the mouse cursor
+ * calculating from its physical position.
+ */
 export const updatePosition = () => {
   if (!canvas) return;
 
