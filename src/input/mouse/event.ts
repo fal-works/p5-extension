@@ -20,13 +20,30 @@ export const emptyHandler = ConstantFunction.returnTrue;
 export const stopHandler = ConstantFunction.returnFalse;
 
 /**
- * A set of functions that will be referred by each mouse event.
+ * A container of functions and variables that will be referred by each mouse event.
  */
 export interface Listener {
+  /**
+   * A function that returns `true` if the mouse cursor is on the listening object.
+   */
+  isMouseOver: (mousePosition: CCC.Vector2D.Unit) => boolean;
+
   onClicked: Handler;
   onPressed: Handler;
   onReleased: Handler;
   onMoved: Handler;
+
+  /**
+   * A `Listener` listens for mouse events only if both `mouseOver` and `active` are `true`.
+   * `active` is a property for activating/deactivating the `Listener` manually.
+   */
+  active: boolean;
+
+  /**
+   * A `Listener` listens for mouse events only if both `mouseOver` and `active` are `true`.
+   * If `active` is `true, `mouseOver` will be automatically updated in `Mouse.Event.onMove` with the result of `isMouseOver()`.
+   */
+  mouseOver: boolean;
 }
 
 /**
@@ -36,10 +53,13 @@ export interface Listener {
  */
 export const createListener = (handlers: Partial<Listener>): Listener => {
   return {
+    isMouseOver: handlers.onClicked || ConstantFunction.returnTrue,
     onClicked: handlers.onClicked || emptyHandler,
     onPressed: handlers.onPressed || emptyHandler,
     onReleased: handlers.onReleased || emptyHandler,
-    onMoved: handlers.onMoved || emptyHandler
+    onMoved: handlers.onMoved || emptyHandler,
+    active: true,
+    mouseOver: false
   };
 };
 
@@ -115,7 +135,11 @@ const createGetHandler = (type: Type) => {
 const createRunHandler = (type: Type) => {
   const getHandler = createGetHandler(type);
 
-  return (listener: Listener) => getHandler(listener)(Mouse.position);
+  return (listener: Listener) => {
+    if (!(listener.active && listener.mouseOver)) return true;
+
+    return getHandler(listener)(Mouse.position);
+  };
 };
 
 /**
@@ -133,7 +157,7 @@ const createOnEvent = (type: Type) => {
     let index = listenerStack.size - 1;
     while (index >= 0) {
       const runNext = runHandler(listeners[index]);
-      if (!runNext) break;
+      if (!runNext) break; // return??
       index -= 1;
     }
 
@@ -144,4 +168,39 @@ const createOnEvent = (type: Type) => {
 export const onClicked = createOnEvent(Type.Clicked);
 export const onPressed = createOnEvent(Type.Pressed);
 export const onReleased = createOnEvent(Type.Released);
-export const onMoved = createOnEvent(Type.Moved);
+
+const setMouseOverFalse = (listener: Listener) => {
+  listener.mouseOver = false;
+  return true;
+};
+
+export const onMoved = () => {
+  const updateRun = (listener: Listener) => {
+    if (!listener.active) return true;
+
+    if (!listener.isMouseOver(Mouse.position)) {
+      listener.mouseOver = false;
+      return true;
+    }
+
+    listener.mouseOver = true;
+    return listener.onMoved(Mouse.position);
+  };
+
+  let processListener = updateRun;
+
+  const runNext = processListener(topListener);
+  if (!runNext) return;
+
+  const listeners = listenerStack.array;
+  let index = listenerStack.size - 1;
+  while (index >= 0) {
+    const runNext = processListener(listeners[index]);
+    if (!runNext) {
+      processListener = setMouseOverFalse;
+    }
+    index -= 1;
+  }
+
+  processListener(bottomListener);
+};
