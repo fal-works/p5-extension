@@ -1,5 +1,5 @@
 import * as CCC from "@fal-works/creative-coding-core";
-import { ArrayList, Vector2D, RectangleRegion } from "../ccc";
+import { ArrayList, Vector2D, RectangleRegion, ConstantFunction } from "../ccc";
 import { p, canvas } from "../shared";
 import { drawTranslated } from "../draw";
 
@@ -45,9 +45,6 @@ export const setCenter = () =>
  */
 export type EventCallback = (mousePosition: CCC.Vector2D.Unit) => boolean;
 
-export const emptyCallback: EventCallback = () => true;
-export const stopCallback: EventCallback = () => false;
-
 /**
  * A set of functions that will be run triggered by each mouse event.
  */
@@ -58,14 +55,19 @@ export interface EventHandler {
   onMoved: EventCallback;
 }
 
+/**
+ * Creates a set of functions that will be run triggered by each mouse event.
+ * @param handler
+ * @returns An `EventHandler` object.
+ */
 export const createEventHandler = (
   handler: Partial<EventHandler>
 ): EventHandler => {
   return {
-    onClicked: handler.onClicked || emptyCallback,
-    onPressed: handler.onPressed || emptyCallback,
-    onReleased: handler.onReleased || emptyCallback,
-    onMoved: handler.onMoved || emptyCallback
+    onClicked: handler.onClicked || ConstantFunction.returnTrue,
+    onPressed: handler.onPressed || ConstantFunction.returnTrue,
+    onReleased: handler.onReleased || ConstantFunction.returnTrue,
+    onMoved: handler.onMoved || ConstantFunction.returnTrue
   };
 };
 
