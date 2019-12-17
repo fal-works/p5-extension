@@ -120,7 +120,7 @@ export const create = (
   const pointerCursor = () => p.cursor("pointer");
   listener.onEnter.push(setMouseOver, pointerCursor);
   listener.onPressed.push(setPressed);
-  listener.onClicked.push(setMouseOver, autoCursor);
+  listener.onClicked.push(setMouseOver);
   listener.onLeave.push(setDefault, autoCursor);
   if (!allowSubsequentEvents) {
     listener.onMoved.push(Event.stopHandler);
