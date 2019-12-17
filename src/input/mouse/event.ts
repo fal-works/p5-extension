@@ -1,5 +1,5 @@
 import * as CCC from "@fal-works/creative-coding-core";
-import { ArrayList, ConstantFunction } from "../../ccc";
+import { ArrayList, ConstantFunction, unifyToArray } from "../../ccc";
 import * as Mouse from "./mouse";
 
 /**
@@ -22,20 +22,33 @@ export const emptyHandler = ConstantFunction.returnVoid;
 export const stopHandler = ConstantFunction.returnFalse;
 
 /**
+ * Run all `handlers`.
+ * @param handlers
+ * @returns `false` if any handler returned `false`. If not, `true`.
+ */
+const runHandlers = (handlers: Handler[]) => {
+  let result = true;
+  for (let i = 0; i < handlers.length; i += 1)
+    result = handlers[i](Mouse.position) !== false && result;
+
+  return result;
+};
+
+/**
  * A container of functions and variables that will be referred by each mouse event.
  */
 export interface Listener {
+  readonly onClicked: Handler[];
+  readonly onPressed: Handler[];
+  readonly onReleased: Handler[];
+  readonly onMoved: Handler[];
+  readonly onEnter: Handler[];
+  readonly onLeave: Handler[];
+
   /**
    * A function that returns `true` if the mouse cursor is on the listening object.
    */
   isMouseOver: (mousePosition: CCC.Vector2D.Unit) => boolean;
-
-  onClicked: Handler;
-  onPressed: Handler;
-  onReleased: Handler;
-  onMoved: Handler;
-  onEnter: Handler;
-  onLeave: Handler;
 
   /**
    * A `Listener` listens for mouse events only if both `mouseOver` and `active` are `true`.
@@ -54,38 +67,35 @@ export interface Listener {
  * Parameters for `createListener`.
  */
 export interface ListenerCallbacks {
-  /**
-   * A function that returns `true` if the mouse cursor is on the listening object.
-   */
-  isMouseOver?: (mousePosition: CCC.Vector2D.Unit) => boolean;
-
   onClicked?: Handler;
   onPressed?: Handler;
   onReleased?: Handler;
   onMoved?: Handler;
   onEnter?: Handler;
   onLeave?: Handler;
-}
 
-const defaultListener: Listener = {
-  isMouseOver: ConstantFunction.returnTrue,
-  onClicked: emptyHandler,
-  onPressed: emptyHandler,
-  onReleased: emptyHandler,
-  onMoved: emptyHandler,
-  onEnter: emptyHandler,
-  onLeave: emptyHandler,
-  active: true,
-  mouseOver: false
-};
+  /**
+   * A function that returns `true` if the mouse cursor is on the listening object.
+   */
+  isMouseOver?: (mousePosition: CCC.Vector2D.Unit) => boolean;
+}
 
 /**
  * Creates a `Listener` that will be referred by each mouse event.
  * @param callbacks
  * @returns A `Listener` object.
  */
-export const createListener = (callbacks: ListenerCallbacks): Listener =>
-  Object.assign({}, defaultListener, callbacks);
+export const createListener = (callbacks: ListenerCallbacks): Listener => ({
+  onClicked: unifyToArray(callbacks.onClicked),
+  onPressed: unifyToArray(callbacks.onPressed),
+  onReleased: unifyToArray(callbacks.onReleased),
+  onMoved: unifyToArray(callbacks.onMoved),
+  onEnter: unifyToArray(callbacks.onEnter),
+  onLeave: unifyToArray(callbacks.onLeave),
+  isMouseOver: callbacks.isMouseOver || ConstantFunction.returnTrue,
+  active: true,
+  mouseOver: false
+});
 
 /**
  * The `Listener` that will be called first by any mouse event.
@@ -114,11 +124,11 @@ export const addListener = (listener: Listener) =>
 
 /**
  * Creates a new `Listener` and adds it to `listenerStack`.
- * @param handlers
+ * @param callbacks
  * @returns Created `Listener`.
  */
-export const addNewListener = (handlers: Partial<Listener>) => {
-  const newListener = createListener(handlers);
+export const addNewListener = (callbacks: ListenerCallbacks) => {
+  const newListener = createListener(callbacks);
   ArrayList.add(listenerStack, newListener);
 
   return newListener;
@@ -143,9 +153,9 @@ const enum Type {
 
 /**
  * @param type
- * @returns A function that gets the handler function (corresponding to `type`) from `listener`.
+ * @returns A function that gets the handler functions (corresponding to `type`) from `listener`.
  */
-const createGetHandler = (type: Type) => {
+const createGetHandlers = (type: Type) => {
   switch (type) {
     case Type.Clicked:
       return (listener: Listener) => listener.onClicked;
@@ -160,15 +170,15 @@ const createGetHandler = (type: Type) => {
 
 /**
  * @param type
- * @returns A function that gets the handler function (corresponding to `type`) from `listener` and runs it.
+ * @returns A function that gets the handler functions (corresponding to `type`) from `listener` and runs them.
  */
-const createRunHandler = (type: Type) => {
-  const getHandler = createGetHandler(type);
+const createRunHandlers = (type: Type) => {
+  const getHandlers = createGetHandlers(type);
 
   return (listener: Listener) => {
     if (!(listener.active && listener.mouseOver)) return true;
 
-    return getHandler(listener)(Mouse.position);
+    return runHandlers(getHandlers(listener));
   };
 };
 
@@ -177,19 +187,19 @@ const createRunHandler = (type: Type) => {
  * @returns A function that should be called by `type` and runs registered event handlers.
  */
 const createOnEvent = (type: Type) => {
-  const runHandler = createRunHandler(type);
+  const runHandlersOf = createRunHandlers(type);
 
   return () => {
-    if (runHandler(topListener) === false) return;
+    if (runHandlersOf(topListener) === false) return;
 
     const listeners = listenerStack.array;
     let index = listenerStack.size - 1;
     while (index >= 0) {
-      if (runHandler(listeners[index]) === false) return;
+      if (runHandlersOf(listeners[index]) === false) return;
       index -= 1;
     }
 
-    runHandler(bottomListener);
+    runHandlersOf(bottomListener);
   };
 };
 
@@ -208,18 +218,18 @@ const updateRun = (listener: Listener) => {
   if (!listener.isMouseOver(Mouse.position)) {
     if (listener.mouseOver) {
       listener.mouseOver = false;
-      return listener.onLeave(Mouse.position);
+      return runHandlers(listener.onLeave);
     }
     return;
   }
 
   if (!listener.mouseOver) {
     listener.mouseOver = true;
-    const onEnterResult = listener.onEnter(Mouse.position) !== false;
-    return listener.onMoved(Mouse.position) !== false && onEnterResult;
+    const onEnterResult = runHandlers(listener.onEnter) !== false;
+    return runHandlers(listener.onMoved) !== false && onEnterResult;
   }
 
-  return listener.onMoved(Mouse.position);
+  return runHandlers(listener.onMoved);
 };
 
 export const onMoved = () => {

@@ -4,7 +4,7 @@ export const {
   RectangleRegion,
   FitBox,
   Arrays: {
-    FullName: { loopArray }
+    FullName: { loopArray, unifyToArray }
   },
   ArrayList,
   Vector2D,
