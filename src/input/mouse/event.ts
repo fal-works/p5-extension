@@ -67,12 +67,12 @@ export interface Listener {
  * Parameters for `createListener`.
  */
 export interface ListenerCallbacks {
-  onClicked?: Handler;
-  onPressed?: Handler;
-  onReleased?: Handler;
-  onMoved?: Handler;
-  onEnter?: Handler;
-  onLeave?: Handler;
+  onClicked?: Handler | Handler[];
+  onPressed?: Handler | Handler[];
+  onReleased?: Handler | Handler[];
+  onMoved?: Handler | Handler[];
+  onEnter?: Handler | Handler[];
+  onLeave?: Handler | Handler[];
 
   /**
    * A function that returns `true` if the mouse cursor is on the listening object.
