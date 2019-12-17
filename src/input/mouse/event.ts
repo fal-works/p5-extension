@@ -7,7 +7,7 @@ import * as Mouse from "./mouse";
  * If this returns `false`, the subsequent handlers will not be checked.
  * @param mousePosition The logical position of the mouse cursor.
  */
-export type Handler = (mousePosition: CCC.Vector2D.Unit) => boolean | void;
+export type Handler = (mousePosition: CCC.Vector2D.Unit) => any;
 
 /**
  * A `Handler` function with no effect.
