@@ -104,11 +104,18 @@ export const listenerStack = ArrayList.create<Listener>(32);
 export const bottomListener: Listener = createListener({});
 
 /**
- * Creates a `Listener` and adds it to `listenerStack`.
+ * Adds `listener` to `listenerStack`.
+ * @param listener
+ */
+export const addListener = (listener: Listener) =>
+  ArrayList.add(listenerStack, listener);
+
+/**
+ * Creates a new `Listener` and adds it to `listenerStack`.
  * @param handlers
  * @returns Created `Listener`.
  */
-export const addListener = (handlers: Partial<Listener>) => {
+export const addNewListener = (handlers: Partial<Listener>) => {
   const newListener = createListener(handlers);
   ArrayList.add(listenerStack, newListener);
 
@@ -119,9 +126,8 @@ export const addListener = (handlers: Partial<Listener>) => {
  * Removes `listener` from `listenerStack`.
  * @param listener
  */
-export const removeListener = (listener: Listener) => {
+export const removeListener = (listener: Listener) =>
   ArrayList.removeShiftElement(listenerStack, listener);
-};
 
 /**
  * A type of mouse events, e.g. `Clicked`, `Pressed` etc.
