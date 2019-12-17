@@ -7,15 +7,17 @@ import * as Mouse from "./mouse";
  * If this returns `false`, the subsequent handlers will not be checked.
  * @param mousePosition The logical position of the mouse cursor.
  */
-export type Handler = (mousePosition: CCC.Vector2D.Unit) => boolean;
+export type Handler = (mousePosition: CCC.Vector2D.Unit) => boolean | void;
 
 /**
- * A `Handler` function that does nothing and returns `true` so that subsequent `Handler`s will be called.
+ * A `Handler` function with no effect.
+ * @returns Nothing so that subsequent `Handler`s will be called.
  */
-export const emptyHandler = ConstantFunction.returnTrue;
+export const emptyHandler = ConstantFunction.returnVoid;
 
 /**
- * A `Handler` function that does nothing and returns `false` so that subsequent `Handler`s will be ignored.
+ * A `Handler` function with no effect.
+ * @returns `false` so that subsequent `Handler`s will be ignored.
  */
 export const stopHandler = ConstantFunction.returnFalse;
 
@@ -178,14 +180,12 @@ const createOnEvent = (type: Type) => {
   const runHandler = createRunHandler(type);
 
   return () => {
-    const runNext = runHandler(topListener);
-    if (!runNext) return;
+    if (runHandler(topListener) === false) return;
 
     const listeners = listenerStack.array;
     let index = listenerStack.size - 1;
     while (index >= 0) {
-      const runNext = runHandler(listeners[index]);
-      if (!runNext) return;
+      if (runHandler(listeners[index]) === false) return;
       index -= 1;
     }
 
@@ -202,37 +202,37 @@ const setMouseOverFalse = (listener: Listener) => {
   return true;
 };
 
+const updateRun = (listener: Listener) => {
+  if (!listener.active) return;
+
+  if (!listener.isMouseOver(Mouse.position)) {
+    if (listener.mouseOver) {
+      listener.mouseOver = false;
+      return listener.onLeave(Mouse.position);
+    }
+    return;
+  }
+
+  if (!listener.mouseOver) {
+    listener.mouseOver = true;
+    const onEnterResult = listener.onEnter(Mouse.position) !== false;
+    return listener.onMoved(Mouse.position) !== false && onEnterResult;
+  }
+
+  return listener.onMoved(Mouse.position);
+};
+
 export const onMoved = () => {
-  const updateRun = (listener: Listener) => {
-    if (!listener.active) return true;
-
-    if (!listener.isMouseOver(Mouse.position)) {
-      if (listener.mouseOver) {
-        listener.mouseOver = false;
-        return listener.onLeave(Mouse.position);
-      }
-      return true;
-    }
-
-    if (!listener.mouseOver) {
-      listener.mouseOver = true;
-      const onEnterResult = listener.onEnter(Mouse.position);
-      return listener.onMoved(Mouse.position) && onEnterResult;
-    }
-
-    return listener.onMoved(Mouse.position);
-  };
-
   let processListener = updateRun;
 
-  const runNext = processListener(topListener);
-  if (!runNext) return;
+  if (processListener(topListener) === false) {
+    processListener = setMouseOverFalse;
+  }
 
   const listeners = listenerStack.array;
   let index = listenerStack.size - 1;
   while (index >= 0) {
-    const runNext = processListener(listeners[index]);
-    if (!runNext) {
+    if (processListener(listeners[index]) === false) {
       processListener = setMouseOverFalse;
     }
     index -= 1;
