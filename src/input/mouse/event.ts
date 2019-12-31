@@ -3,6 +3,19 @@ import { ArrayList, ConstantFunction, unifyToArray } from "../../ccc";
 import * as Mouse from "./mouse";
 
 /**
+ * The global flag that indicates if mouse events should be handled.
+ */
+export let active = true;
+
+/**
+ * Sets the global flag that indicates if mouse events should be handled.
+ * @param flag
+ */
+export const setActive = (flag: boolean) => {
+  active = flag;
+};
+
+/**
  * Callback function for handling mouse events.
  * If this returns `false`, the subsequent handlers will not be checked.
  * @param mousePosition The logical position of the mouse cursor.
@@ -190,6 +203,8 @@ const createOnEvent = (type: Type) => {
   const runHandlersOf = createRunHandlers(type);
 
   return () => {
+    if (!active) return;
+
     if (runHandlersOf(topListener) === false) return;
 
     const listeners = listenerStack.array;
@@ -233,6 +248,8 @@ const updateRun = (listener: Listener) => {
 };
 
 export const onMoved = () => {
+  if (!active) return;
+
   let processListener = updateRun;
 
   if (processListener(topListener) === false) {
