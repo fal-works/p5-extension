@@ -1,4 +1,4 @@
-import { randomFromAbsolute } from "../ccc";
+import { randomSigned } from "../ccc";
 import { p, canvas } from "../shared";
 
 export const enum ShakeType {
@@ -30,13 +30,9 @@ export const applyShake = () => {
 
   const { width, height } = canvas.logicalSize;
   const xShake =
-    shakeType === ShakeType.VERTICAL
-      ? 0
-      : randomFromAbsolute(shakeFactor * width);
+    shakeType === ShakeType.VERTICAL ? 0 : randomSigned(shakeFactor * width);
   const yShake =
-    shakeType === ShakeType.HORIZONTAL
-      ? 0
-      : randomFromAbsolute(shakeFactor * height);
+    shakeType === ShakeType.HORIZONTAL ? 0 : randomSigned(shakeFactor * height);
   p.translate(xShake, yShake);
 
   shakeFactor *= shakeDecayFactor;

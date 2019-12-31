@@ -21,7 +21,7 @@ export const {
   Numeric: { sin, cos, round, lerp, inverseLerp, max2, clamp },
   MathConstants,
   Random: {
-    FullName: { randomValue, randomFromAbsolute }
+    FullName: { randomValue, randomSigned }
   },
   Angle,
   HSV,
