@@ -43,9 +43,9 @@ export const storePixels = (
   prepareCallback?: (renderer: p5 | p5.Graphics) => void | p5
 ) => {
   if (prepareCallback) {
-    renderer.pop();
-    prepareCallback(renderer);
     renderer.push();
+    prepareCallback(renderer);
+    renderer.pop();
   }
   renderer.loadPixels();
   const storedPixels = renderer.pixels;
