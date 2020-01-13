@@ -3,11 +3,14 @@ import { HSV, returnVoid } from "../../ccc";
 import { p, renderer } from "../../shared";
 
 /**
- * Creates a new `p5.Color` instance from another `p5.Color` or a color code string.
- * @param color
+ * Creates a new `p5.Color` instance from `color`.
+ * @param color Either a grayness value, a color code string, an array of color values or another `p5.Color` instance.
+ * @returns A new `p5.Color` instance.
  */
-export const parseColor = (color: p5.Color | string): p5.Color =>
-  typeof color === "string" ? p.color(color) : Object.create(color);
+export const parseColor = (
+  color: number | string | number[] | p5.Color
+): p5.Color =>
+  color instanceof p5.Color ? Object.create(color) : p.color(color as any);
 
 /**
  * Creates a function that applies a stroke color.
