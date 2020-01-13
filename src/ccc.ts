@@ -19,17 +19,15 @@ export const {
   },
   Coordinates2D: { distance },
   Numeric: { sin, cos, round, lerp, inverseLerp, max2, clamp },
-  MathConstants,
+  MathConstants: { ONE_OVER_SQUARE_ROOT_TWO, INVERSE255 },
   Random: {
     FullName: { randomValue, randomSigned }
   },
   Angle,
+  Angle: { TWO_PI },
   HSV,
   ConstantFunction,
+  ConstantFunction: { returnVoid },
   Tween,
   Timer
 } = CCC;
-
-export const { ONE_OVER_SQUARE_ROOT_TWO, INVERSE255 } = MathConstants;
-export const { TWO_PI } = Angle;
-export const { returnVoid } = ConstantFunction;
