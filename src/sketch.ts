@@ -20,7 +20,8 @@ export interface SketchSettings {
   logicalCanvasSize: CCC.RectangleSize.Unit;
 
   /**
-   * Function that will be called in `p.setup()` just after creating the canvas.
+   * Function that will be called in `p.setup()` after
+   * creating the canvas and running all elements of `onSetup`.
    * The canvas will be automatically created and should not be manually created in this function.
    */
   initialize: () => void;
