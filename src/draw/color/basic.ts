@@ -2,14 +2,14 @@ import p5 from "p5";
 import { HSV, returnVoid } from "../../ccc";
 import { p, renderer } from "../../shared";
 
+type ColorParameter = number | string | number[] | p5.Color;
+
 /**
  * Creates a new `p5.Color` instance from `color`.
  * @param color Either a grayness value, a color code string, an array of color values or another `p5.Color` instance.
  * @returns A new `p5.Color` instance.
  */
-export const parseColor = (
-  color: number | string | number[] | p5.Color
-): p5.Color =>
+export const parseColor = (color: ColorParameter): p5.Color =>
   color instanceof p5.Color ? Object.create(color) : p.color(color as any);
 
 /**
@@ -18,7 +18,7 @@ export const parseColor = (
  * @returns A function that runs either `stroke()`, `noStroke()` or nothing.
  */
 export const parseStroke = (
-  color: p5.Color | string | null | undefined
+  color: ColorParameter | null | undefined
 ): (() => void) => {
   if (color === null) return () => renderer.noStroke();
   if (color === undefined) return returnVoid;
@@ -33,7 +33,7 @@ export const parseStroke = (
  * @returns A function that runs either `fill()`, `noFill()` or nothing.
  */
 export const parseFill = (
-  color: p5.Color | string | null | undefined
+  color: ColorParameter | null | undefined
 ): (() => void) => {
   if (color === null) return () => renderer.noFill();
   if (color === undefined) return returnVoid;
@@ -48,8 +48,8 @@ export const parseFill = (
  * @param color
  * @param alpha
  */
-export const colorWithAlpha = (color: p5.Color | string, alpha: number) => {
-  const colorObject = typeof color === "string" ? p.color(color) : color;
+export const colorWithAlpha = (color: ColorParameter, alpha: number) => {
+  const colorObject = parseColor(color);
 
   return p.color(
     p.red(colorObject),
