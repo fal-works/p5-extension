@@ -1,7 +1,7 @@
 import p5 from "p5";
 import { round, INVERSE255 } from "../../ccc";
 import { p } from "../../shared";
-import { colorWithAlpha } from "./basic";
+import { ColorParameter, parseColor, colorWithAlpha } from "./basic";
 
 export interface Unit {
   readonly colors: readonly p5.Color[];
@@ -14,18 +14,18 @@ export interface Unit {
  * @param color
  * @param resolution
  */
-export const create = (color: p5.Color | string, resolution: number): Unit => {
+export const create = (color: ColorParameter, resolution: number): Unit => {
   const colors: p5.Color[] = new Array(resolution);
   const maxIndex = resolution - 1;
+  const baseColor = parseColor(color);
 
   if (resolution === 1) {
-    colors[0] =
-      typeof color === "string" ? p.color(color) : Object.assign({}, color);
+    colors[0] = baseColor;
   } else {
-    const baseAlpha = p.alpha(color);
+    const baseAlpha = p.alpha(baseColor);
     for (let i = 1; i < resolution; i += 1) {
       const alpha = baseAlpha * (i / maxIndex);
-      colors[i] = colorWithAlpha(color, alpha);
+      colors[i] = colorWithAlpha(baseColor, alpha);
     }
   }
 

@@ -2,7 +2,10 @@ import p5 from "p5";
 import { HSV, returnVoid } from "../../ccc";
 import { p, renderer } from "../../shared";
 
-type ColorParameter = number | string | number[] | p5.Color;
+/**
+ * Types that can be an argument of `parseColor`.
+ */
+export type ColorParameter = number | string | number[] | p5.Color;
 
 /**
  * Creates a new `p5.Color` instance from `color`.

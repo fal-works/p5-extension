@@ -1,7 +1,6 @@
-import p5 from "p5";
 import { returnVoid } from "../../ccc";
 import { renderer } from "../../shared";
-import { parseStroke, parseFill } from "./basic";
+import { ColorParameter, parseStroke, parseFill } from "./basic";
 import * as AlphaColor from "./alpha-color";
 
 export interface Unit {
@@ -17,8 +16,8 @@ export interface Unit {
  * @param alphaResolution
  */
 export const create = (
-  strokeColor: p5.Color | string | null | undefined,
-  fillColor: p5.Color | string | null | undefined,
+  strokeColor: ColorParameter | null | undefined,
+  fillColor: ColorParameter | null | undefined,
   alphaResolution: number
 ): Unit => {
   if (alphaResolution === 1) {
