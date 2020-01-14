@@ -99,7 +99,7 @@ export const update = (camera: Unit) => {
     displaySize: { width, height },
     regionBoundary: {
       topLeft: { x: leftX, y: topY },
-      rightBottom: { x: rightX, y: bottomY }
+      bottomRight: { x: rightX, y: bottomY }
     },
     zoomFactor
   } = camera;
