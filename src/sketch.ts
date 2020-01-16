@@ -1,6 +1,5 @@
 import p5 from "p5";
 import * as CCC from "@fal-works/creative-coding-core";
-import { HtmlUtility, loopArray } from "./ccc";
 import { setP5Instance, setCanvas } from "./shared";
 import { createScaledCanvas, createFullScaledCanvas } from "./canvas";
 import { onSetup } from "./setup";
@@ -55,7 +54,7 @@ export interface SketchSettings {
 export const startSketch = (settings: SketchSettings): void => {
   const htmlElement =
     typeof settings.htmlElement === "string"
-      ? HtmlUtility.getElementOrBody(settings.htmlElement)
+      ? CCC.HtmlUtility.getElementOrBody(settings.htmlElement)
       : settings.htmlElement;
 
   const {
@@ -72,7 +71,7 @@ export const startSketch = (settings: SketchSettings): void => {
 
     p.setup = (): void => {
       const physicalContainerSize = htmlElement
-        ? HtmlUtility.getElementSize(htmlElement)
+        ? CCC.HtmlUtility.getElementSize(htmlElement)
         : undefined;
 
       const scaledCanvas = logicalCanvasWidth
@@ -92,11 +91,12 @@ export const startSketch = (settings: SketchSettings): void => {
           });
       setCanvas(scaledCanvas);
 
-      loopArray(onSetup, listener => listener(p));
+      CCC.Arrays.loopRunWithArgument(onSetup, p);
       onSetup.length = 0;
 
       initialize();
     };
+
     setP5Methods(p);
   }, htmlElement);
 };

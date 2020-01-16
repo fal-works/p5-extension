@@ -1,6 +1,5 @@
 import * as CCC from "@fal-works/creative-coding-core";
 export const {
-  HtmlUtility,
   RectangleRegion,
   FitBox,
   Arrays: {
