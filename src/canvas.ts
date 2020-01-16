@@ -1,9 +1,10 @@
 import p5 from "p5";
 import * as CCC from "@fal-works/creative-coding-core";
 
-import { RectangleRegion, FitBox, HtmlUtility, Vector2D } from "./ccc";
+import { RectangleRegion, FitBox, Vector2D } from "./ccc";
 import { p } from "./shared";
 import { drawScaled } from "./draw/transform";
+import { getWindowSize } from "./misc/window";
 
 export interface Canvas {
   readonly p5Canvas: p5.Renderer;
@@ -27,30 +28,11 @@ export interface ScaledCanvas extends Canvas {
   readonly drawScaled: (drawCallback: () => void) => void;
 }
 
-/**
- * Runs `p.createCanvas()` with the scaled size that fits to `node`.
- * Returns a `ScaledCanvas` instance, which includes the created canvas and the scale factor.
- *
- * @param node The HTML element or its ID.
- * @param logicalSize
- * @param fittingOption No scaling if `null`.
- * @param renderer
- * @returns A `ScaledCanvas` instance.
- */
-export const createScaledCanvas = (
-  node: HTMLElement | string,
+const constructCanvas = (
   logicalSize: CCC.RectangleSize.Unit,
-  fittingOption?: CCC.FitBox.FittingOption | null,
+  scaleFactor: number,
   renderer?: "p2d" | "webgl"
-): ScaledCanvas => {
-  const maxCanvasSize = HtmlUtility.getElementSize(
-    typeof node === "string" ? HtmlUtility.getElementOrBody(node) : node
-  );
-  const scaleFactor =
-    fittingOption !== null
-      ? FitBox.calculateScaleFactor(logicalSize, maxCanvasSize, fittingOption)
-      : 1;
-
+) => {
   const p5Canvas = p.createCanvas(
     scaleFactor * logicalSize.width,
     scaleFactor * logicalSize.height,
@@ -73,4 +55,78 @@ export const createScaledCanvas = (
     scaleFactor,
     drawScaled: drawScaledFunction
   };
+};
+
+/**
+ * Creates a `ScaledCanvas` instance with the scaled size that fits to `physicalContainerSize`.
+ *
+ * @param parameters.logicalSize
+ * @param parameters.physicalContainerSize Defaults to the window size.
+ * @param parameters.fittingOption No scaling if `null`.
+ * @param parameters.renderer
+ * @returns A `ScaledCanvas` instance.
+ */
+export const createScaledCanvas = (parameters: {
+  logicalSize: CCC.RectangleSize.Unit;
+  physicalContainerSize?: CCC.RectangleSize.Unit;
+  fittingOption?: CCC.FitBox.FittingOption | null;
+  renderer?: "p2d" | "webgl";
+}): ScaledCanvas => {
+  const {
+    logicalSize,
+    physicalContainerSize,
+    fittingOption,
+    renderer
+  } = Object.assign(
+    {
+      physicalContainerSize: getWindowSize()
+    },
+    parameters
+  );
+
+  const scaleFactor =
+    fittingOption !== null
+      ? FitBox.calculateScaleFactor(
+          logicalSize,
+          physicalContainerSize,
+          fittingOption
+        )
+      : 1;
+
+  return constructCanvas(logicalSize, scaleFactor, renderer);
+};
+
+/**
+ * Creates a `ScaledCanvas` instance with the scaled height that fits to `physicalContainerSize`.
+ * The width will be determined according to the aspect ratio of `physicalContainerSize`.
+ *
+ * @param parameters.logicalHeight
+ * @param parameters.physicalContainerSize Defaults to the window size.
+ * @param parameters.renderer
+ * @param parameters.disableScaling
+ * @returns A `ScaledCanvas` instance.
+ */
+export const createFullScaledCanvas = (parameters: {
+  logicalHeight: number;
+  physicalContainerSize?: CCC.RectangleSize.Unit;
+  renderer?: "p2d" | "webgl";
+  disableScaling?: boolean;
+}): ScaledCanvas => {
+  const { logicalHeight, physicalContainerSize, renderer } = Object.assign(
+    {
+      physicalContainerSize: getWindowSize()
+    },
+    parameters
+  );
+
+  const scaleFactor = !parameters.disableScaling
+    ? physicalContainerSize.height / logicalHeight
+    : 1;
+
+  const logicalSize: CCC.RectangleSize.Unit = {
+    width: physicalContainerSize.width / scaleFactor,
+    height: logicalHeight
+  };
+
+  return constructCanvas(logicalSize, scaleFactor, renderer);
 };

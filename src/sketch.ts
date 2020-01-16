@@ -2,7 +2,7 @@ import p5 from "p5";
 import * as CCC from "@fal-works/creative-coding-core";
 import { HtmlUtility, loopArray } from "./ccc";
 import { setP5Instance, setCanvas } from "./shared";
-import { createScaledCanvas } from "./canvas";
+import { createScaledCanvas, createFullScaledCanvas } from "./canvas";
 import { onSetup } from "./setup";
 
 /**
@@ -12,12 +12,17 @@ export interface SketchSettings {
   /**
    * The HTML element (or its ID) to which the canvas should belong.
    */
-  htmlElement: HTMLElement | string;
+  htmlElement?: HTMLElement | string;
 
   /**
-   * The logical (i.e. non-scaled) size of the canvas, e.g. `{ width: 640, height: 480 }`;
+   * The logical (i.e. non-scaled) width of the canvas.
    */
-  logicalCanvasSize: CCC.RectangleSize.Unit;
+  logicalCanvasWidth?: number;
+
+  /**
+   * The logical (i.e. non-scaled) height of the canvas.
+   */
+  logicalCanvasHeight: number;
 
   /**
    * Function that will be called in `p.setup()` after
@@ -33,6 +38,7 @@ export interface SketchSettings {
 
   /**
    * Option for canvas scaling. Set `null` to disable scaling.
+   * Has no effect if `logicalCanvasWidth` is not specified.
    */
   fittingOption?: CCC.FitBox.FittingOption | null;
 
@@ -52,21 +58,45 @@ export const startSketch = (settings: SketchSettings): void => {
       ? HtmlUtility.getElementOrBody(settings.htmlElement)
       : settings.htmlElement;
 
+  const {
+    logicalCanvasWidth,
+    logicalCanvasHeight,
+    initialize,
+    setP5Methods,
+    fittingOption,
+    renderer
+  } = settings;
+
   new p5((p: p5): void => {
     setP5Instance(p);
+
     p.setup = (): void => {
-      setCanvas(
-        createScaledCanvas(
-          htmlElement,
-          settings.logicalCanvasSize,
-          settings.fittingOption,
-          settings.renderer
-        )
-      );
+      const physicalContainerSize = htmlElement
+        ? HtmlUtility.getElementSize(htmlElement)
+        : undefined;
+
+      const scaledCanvas = logicalCanvasWidth
+        ? createScaledCanvas({
+            logicalSize: {
+              width: logicalCanvasWidth,
+              height: logicalCanvasHeight
+            },
+            physicalContainerSize,
+            fittingOption,
+            renderer
+          })
+        : createFullScaledCanvas({
+            logicalHeight: logicalCanvasHeight,
+            physicalContainerSize,
+            renderer
+          });
+      setCanvas(scaledCanvas);
+
       loopArray(onSetup, listener => listener(p));
       onSetup.length = 0;
-      settings.initialize();
+
+      initialize();
     };
-    settings.setP5Methods(p);
+    setP5Methods(p);
   }, htmlElement);
 };
