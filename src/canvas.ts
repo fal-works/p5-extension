@@ -5,21 +5,26 @@ import { RectangleRegion, FitBox, HtmlUtility, Vector2D } from "./ccc";
 import { p } from "./shared";
 import { drawScaled } from "./draw/transform";
 
+export interface Canvas {
+  readonly p5Canvas: p5.Renderer;
+  readonly logicalSize: CCC.RectangleSize.Unit;
+  readonly logicalRegion: CCC.RectangleRegion.Unit;
+  readonly logicalCenterPosition: CCC.Vector2D.Unit;
+}
+
 /**
  * p5.js canvas accompanied by a scale factor.
  */
-export interface ScaledCanvas {
-  readonly p5Canvas: p5.Renderer;
-
+export interface ScaledCanvas extends Canvas {
   /**
    * The ratio of the physical size to the logical size, i.e. `scaleFactor * (logical size) = (physical size)`
    */
-  readonly scaleFactor: number;
+  scaleFactor: number;
 
-  readonly logicalSize: CCC.RectangleSize.Unit;
-  readonly logicalRegion: CCC.RectangleRegion.Unit;
+  /**
+   * A function that runs `drawCallback` scaled with `scaleFactor`.
+   */
   readonly drawScaled: (drawCallback: () => void) => void;
-  readonly logicalCenterPosition: CCC.Vector2D.Unit;
 }
 
 /**
@@ -59,13 +64,13 @@ export const createScaledCanvas = (
 
   return {
     p5Canvas,
-    scaleFactor,
     logicalSize,
     logicalRegion: RectangleRegion.create(Vector2D.zero, logicalSize),
-    drawScaled: drawScaledFunction,
     logicalCenterPosition: {
       x: logicalSize.width / 2,
       y: logicalSize.height / 2
-    }
+    },
+    scaleFactor,
+    drawScaled: drawScaledFunction
   };
 };
