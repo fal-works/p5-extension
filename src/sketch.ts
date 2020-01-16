@@ -70,8 +70,8 @@ export const startSketch = (settings: SketchSettings): void => {
     setP5Instance(p);
 
     p.setup = (): void => {
-      const physicalContainerSize = htmlElement
-        ? CCC.HtmlUtility.getElementSize(htmlElement)
+      const getPhysicalContainerSize = htmlElement
+        ? CCC.HtmlUtility.getElementSize.bind(undefined, htmlElement)
         : undefined;
 
       const scaledCanvas = logicalCanvasWidth
@@ -80,13 +80,13 @@ export const startSketch = (settings: SketchSettings): void => {
               width: logicalCanvasWidth,
               height: logicalCanvasHeight
             },
-            physicalContainerSize,
+            getPhysicalContainerSize,
             fittingOption,
             renderer
           })
         : createFullScaledCanvas({
             logicalHeight: logicalCanvasHeight,
-            physicalContainerSize,
+            getPhysicalContainerSize,
             renderer
           });
       setCanvas(scaledCanvas);
