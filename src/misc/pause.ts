@@ -4,14 +4,25 @@ let paused = false;
 
 /**
  * Pauses the sketch by `p.noLoop()`.
+ */
+export const pause = (): void => {
+  p.noLoop();
+  paused = true;
+};
+
+/**
+ * Resumes the sketch by `p.loop()`.
+ */
+export const resume = (): void => {
+  p.loop();
+  paused = false;
+};
+
+/**
+ * Pauses the sketch by `p.noLoop()`.
  * If already paused, resumes by `p.loop()`.
  */
 export const pauseOrResume = (): void => {
-  if (paused) {
-    p.loop();
-    paused = false;
-  } else {
-    p.noLoop();
-    paused = true;
-  }
+  if (paused) resume();
+  else pause();
 };
