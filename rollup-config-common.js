@@ -3,12 +3,12 @@ import cleanup from "rollup-plugin-cleanup";
 
 // ----------------------------------------------------------------------------
 
-const version = "0.6.1";
+const version = "0.7.0";
 const cleanBuild = true;
 
 const moduleName = "p5-extension";
 const umdName = "p5ex";
-const year = "2019";
+const year = "2019-2020";
 const description = `* An extension for p5.js.`;
 
 const bannerComment = `/**
