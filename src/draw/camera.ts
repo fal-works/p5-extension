@@ -160,12 +160,14 @@ export const setZoom = (camera: Unit, zoomFactor: number) => {
  * If any timer is already running, it will be overwritten.
  * @param camera
  * @param targetZoomFactor
- * @param easing
+ * @param easing Optional
+ * @param duration Optional. Defaults to 60
  */
 export const tweenZoom = (
   camera: Unit,
   targetZoomFactor: number,
-  easing?: CCC.Easing.FunctionUnit
+  easing?: CCC.Easing.FunctionUnit,
+  duration = 60
 ) => {
   const { zoomFactorRange } = camera;
   const endZoomFactor = clamp(
@@ -174,7 +176,7 @@ export const tweenZoom = (
     zoomFactorRange.end
   );
 
-  const timer = Tween.create(v => (camera.zoomFactor = v), 60, {
+  const timer = Tween.create(v => (camera.zoomFactor = v), duration, {
     start: camera.zoomFactor,
     end: endZoomFactor,
     easing
