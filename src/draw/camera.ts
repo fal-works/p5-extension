@@ -43,6 +43,19 @@ export interface Unit {
    * `undefined` If tweening is not running.
    */
   targetZoomFactor: number | undefined;
+
+  /**
+   * The target focus point. If set, the camera automatically moves the focus point closer to this.
+   * Unlike the zoom factor, this is not a tweening process and the moving speed is calculated from `focusPointEasingFactor`.
+   */
+  targetFocusPoint: CCC.Vector2D.Unit | undefined;
+
+  /**
+   * The coefficient for easing the focus point. Defaults to `0.1`.
+   * If `0`, the point does not move.
+   * If `1`, the point is instantly set to `targetFocusPoint`.
+   */
+  focusPointEasingFactor: number;
 }
 
 export const create = (parameters: {
@@ -90,7 +103,9 @@ export const create = (parameters: {
       : copyVector(zeroVector),
     zoomFactor: 1,
     zoomTimer: Timer.dummy,
-    targetZoomFactor: undefined
+    targetZoomFactor: undefined,
+    targetFocusPoint: undefined,
+    focusPointEasingFactor: 0.1
   };
 };
 
@@ -101,8 +116,18 @@ export const update = (camera: Unit) => {
       topLeft: { x: leftX, y: topY },
       bottomRight: { x: rightX, y: bottomY }
     },
-    zoomFactor
+    zoomFactor,
+    focusPoint,
+    targetFocusPoint,
+    focusPointEasingFactor
   } = camera;
+
+  if (targetFocusPoint) {
+    focusPoint.x +=
+      focusPointEasingFactor * (targetFocusPoint.x - focusPoint.x);
+    focusPoint.y +=
+      focusPointEasingFactor * (targetFocusPoint.y - focusPoint.y);
+  }
 
   const logicalHalfWidth = width / (2 * zoomFactor);
   const logicalHalfHeight = height / (2 * zoomFactor);
@@ -112,7 +137,7 @@ export const update = (camera: Unit) => {
   const minY = topY + logicalHalfHeight;
   const maxY = bottomY - logicalHalfHeight;
 
-  constrainVector(camera.focusPoint, minX, maxX, minY, maxY);
+  constrainVector(focusPoint, minX, maxX, minY, maxY);
 
   Timer.Component.step(camera.zoomTimer);
 };
