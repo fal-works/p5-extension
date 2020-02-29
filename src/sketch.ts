@@ -3,6 +3,7 @@ import * as CCC from "@fal-works/creative-coding-core";
 import { setP5Instance, setCanvas } from "./shared";
 import { createScaledCanvas, createFullScaledCanvas } from "./canvas";
 import { onSetup } from "./setup";
+import { P5Methods } from "./p5-methods";
 
 /**
  * Settings data that should be passed to `startSketch()`.
@@ -31,15 +32,21 @@ export interface SketchSettings {
   initialize: () => void;
 
   /**
-   * Function that should set several methods of `p5` instance, e.g. `p.draw()`.
+   * Set of `p5` methods to be overwritten, e.g. `p.draw()`.
    */
-  setP5Methods: (p5Instance: p5) => void;
+  p5Methods: P5Methods;
 
   /**
    * Option for canvas scaling. Set `null` to disable scaling.
    * Has no effect if `logicalCanvasWidth` is not specified.
    */
   fittingOption?: CCC.FitBox.FittingOption | null;
+
+  /**
+   * Function to be run if `resizeCanvas()` is called in
+   * `ScalableCanvas.resizeIfNeeded()`.
+   */
+  onResizeCanvas?: (p: p5) => void;
 
   /**
    * Renderer, either "p2d" or "webgl".
@@ -61,8 +68,9 @@ export const startSketch = (settings: SketchSettings): void => {
     logicalCanvasWidth,
     logicalCanvasHeight,
     initialize,
-    setP5Methods,
+    p5Methods,
     fittingOption,
+    onResizeCanvas,
     renderer
   } = settings;
 
@@ -82,11 +90,13 @@ export const startSketch = (settings: SketchSettings): void => {
             },
             getPhysicalContainerSize,
             fittingOption,
+            onResizeCanvas,
             renderer
           })
         : createFullScaledCanvas({
             logicalHeight: logicalCanvasHeight,
             getPhysicalContainerSize,
+            onResizeCanvas,
             renderer
           });
       setCanvas(scaledCanvas);
@@ -97,6 +107,6 @@ export const startSketch = (settings: SketchSettings): void => {
       initialize();
     };
 
-    setP5Methods(p);
+    Object.assign(p, p5Methods);
   }, htmlElement);
 };
