@@ -6,7 +6,6 @@ import p5 from "p5";
 export type P5Methods = Partial<{
   preload: p5["preload"];
   draw: p5["draw"];
-  windowResized: p5["windowResized"];
   keyPressed: p5["keyPressed"];
   keyReleased: p5["keyReleased"];
   keyTyped: p5["keyTyped"];

@@ -43,6 +43,11 @@ export interface SketchSettings {
   fittingOption?: CCC.FitBox.FittingOption | null;
 
   /**
+   * `windowResized()` function to be assigned to the `p5` instance.
+   */
+  windowResized?: p5["windowResized"];
+
+  /**
    * Function to be run if `resizeCanvas()` is called in
    * `ScalableCanvas.resizeIfNeeded()`.
    */
@@ -70,6 +75,7 @@ export const startSketch = (settings: SketchSettings): void => {
     initialize,
     p5Methods,
     fittingOption,
+    windowResized,
     onResizeCanvas,
     renderer
   } = settings;
@@ -107,6 +113,6 @@ export const startSketch = (settings: SketchSettings): void => {
       initialize();
     };
 
-    Object.assign(p, p5Methods);
+    Object.assign(p, p5Methods, { windowResized });
   }, htmlElement);
 };
