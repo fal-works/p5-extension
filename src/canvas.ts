@@ -87,7 +87,7 @@ const getScaledCanvasAttributes = (data: ScalingData) => {
 /** Used in `createScaledCanvas()` and `createFullScaledCanvas()`. */
 const constructCanvas = (
   getScalingData: () => ScalingData,
-  onResizeCanvas: (p: p5) => void = returnVoid,
+  onCanvasResized: (p: p5) => void = returnVoid,
   renderer?: "p2d" | "webgl"
 ): ScaledCanvas => {
   const scalingData = getScalingData();
@@ -113,7 +113,7 @@ const constructCanvas = (
 
     previousScalingData = scalingData;
 
-    onResizeCanvas(p);
+    onCanvasResized(p);
 
     return true;
   };
@@ -134,14 +134,14 @@ export const createScaledCanvas = (parameters: {
   logicalSize: CCC.RectangleSize.Unit;
   getPhysicalContainerSize?: () => CCC.RectangleSize.Unit;
   fittingOption?: CCC.FitBox.FittingOption | null;
-  onResizeCanvas: SketchSettings["onResizeCanvas"];
+  onCanvasResized: SketchSettings["onCanvasResized"];
   renderer?: "p2d" | "webgl";
 }): ScaledCanvas => {
   const {
     logicalSize,
     getPhysicalContainerSize,
     fittingOption,
-    onResizeCanvas,
+    onCanvasResized,
     renderer
   } = Object.assign(
     {
@@ -165,7 +165,7 @@ export const createScaledCanvas = (parameters: {
     logicalSize
   });
 
-  return constructCanvas(getScalingData, onResizeCanvas, renderer);
+  return constructCanvas(getScalingData, onCanvasResized, renderer);
 };
 
 /**
@@ -181,14 +181,14 @@ export const createScaledCanvas = (parameters: {
 export const createFullScaledCanvas = (parameters: {
   logicalHeight: number;
   getPhysicalContainerSize?: () => CCC.RectangleSize.Unit;
-  onResizeCanvas: SketchSettings["onResizeCanvas"];
+  onCanvasResized: SketchSettings["onCanvasResized"];
   renderer?: "p2d" | "webgl";
   disableScaling?: boolean;
 }): ScaledCanvas => {
   const {
     logicalHeight,
     getPhysicalContainerSize,
-    onResizeCanvas,
+    onCanvasResized,
     renderer
   } = Object.assign({ getPhysicalContainerSize: getWindowSize }, parameters);
 
@@ -208,5 +208,5 @@ export const createFullScaledCanvas = (parameters: {
     };
   };
 
-  return constructCanvas(getScalingData, onResizeCanvas, renderer);
+  return constructCanvas(getScalingData, onCanvasResized, renderer);
 };

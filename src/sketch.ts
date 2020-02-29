@@ -51,7 +51,7 @@ export interface SketchSettings {
    * Function to be run if `resizeCanvas()` is called in
    * `ScalableCanvas.resizeIfNeeded()`.
    */
-  onResizeCanvas?: (p: p5) => void;
+  onCanvasResized?: (p: p5) => void;
 
   /**
    * Renderer, either "p2d" or "webgl".
@@ -76,7 +76,7 @@ export const startSketch = (settings: SketchSettings): void => {
     p5Methods,
     fittingOption,
     windowResized,
-    onResizeCanvas,
+    onCanvasResized,
     renderer
   } = settings;
 
@@ -96,13 +96,13 @@ export const startSketch = (settings: SketchSettings): void => {
             },
             getPhysicalContainerSize,
             fittingOption,
-            onResizeCanvas,
+            onCanvasResized,
             renderer
           })
         : createFullScaledCanvas({
             logicalHeight: logicalCanvasHeight,
             getPhysicalContainerSize,
-            onResizeCanvas,
+            onCanvasResized,
             renderer
           });
       setCanvas(scaledCanvas);
