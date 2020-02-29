@@ -51,6 +51,7 @@ const compareScalingData = (a: ScalingData, b: ScalingData) => {
   return sizeA.width === sizeB.width && sizeB.height === sizeB.height;
 };
 
+/** Used in `constructCanvas()`. */
 const getPhysicalCanvasSize = (data: ScalingData) => {
   const { scaleFactor, logicalSize } = data;
 
@@ -60,6 +61,7 @@ const getPhysicalCanvasSize = (data: ScalingData) => {
   };
 };
 
+/** Used in `constructCanvas()`. */
 const getScaledCanvasAttributes = (data: ScalingData) => {
   const { scaleFactor, logicalSize } = data;
 
@@ -80,6 +82,7 @@ const getScaledCanvasAttributes = (data: ScalingData) => {
   };
 };
 
+/** Used in `createScaledCanvas()` and `createFullScaledCanvas()`. */
 const constructCanvas = (
   getScalingData: () => ScalingData,
   renderer?: "p2d" | "webgl"
@@ -95,7 +98,7 @@ const constructCanvas = (
 
   let previousScalingData = scalingData;
 
-  const resizeIfNeeded = (noRedraw?: boolean) => {
+  const resizeIfNeeded: ScaledCanvas["resizeIfNeeded"] = noRedraw => {
     const scalingData = getScalingData();
     if (compareScalingData(previousScalingData, scalingData)) return;
 
