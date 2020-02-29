@@ -29,11 +29,12 @@ export interface ScaledCanvas extends Canvas {
   drawScaled: (drawCallback: () => void) => void;
 
   /**
-   * Resizes the canvas according to the current container size and updates related data
-   * if the required scale factor has been changed.
+   * Resizes the canvas according to the current container size and updates
+   * related data if the required scale factor has been changed.
    * @param noRedraw
+   * @returns `true` if resized.
    */
-  readonly resizeIfNeeded: (noRedraw?: boolean) => void;
+  readonly resizeIfNeeded: (noRedraw?: boolean) => boolean;
 }
 
 interface ScalingData {
@@ -100,7 +101,7 @@ const constructCanvas = (
 
   const resizeIfNeeded: ScaledCanvas["resizeIfNeeded"] = noRedraw => {
     const scalingData = getScalingData();
-    if (compareScalingData(previousScalingData, scalingData)) return;
+    if (compareScalingData(previousScalingData, scalingData)) return false;
 
     const { width, height } = getPhysicalCanvasSize(scalingData);
     p.resizeCanvas(width, height, noRedraw);
@@ -109,6 +110,8 @@ const constructCanvas = (
     Object.assign(canvas, data);
 
     previousScalingData = scalingData;
+
+    return true;
   };
 
   return Object.assign(canvas, { resizeIfNeeded });
