@@ -1,30 +1,30 @@
 {
   "name": "@fal-works/p5-extension",
   "description": "An extension for p5.js.",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "author": "FAL",
   "bugs": {
     "url": "https://github.com/fal-works/p5-extension/issues"
   },
   "dependencies": {
-    "@fal-works/creative-coding-core": "0.7.2",
-    "p5": "^0.10.2"
+    "@fal-works/creative-coding-core": "0.8.0"
   },
   "devDependencies": {
     "@types/p5": "^0.9.0",
-    "@typescript-eslint/eslint-plugin": "^2.17.0",
-    "@typescript-eslint/parser": "^2.17.0",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "npm-run-all": "^4.1.5",
+    "p5": "^0.10.2",
     "prettier": "^1.19.1",
-    "rollup": "^1.29.1",
+    "rollup": "^1.32.0",
     "rollup-plugin-cleanup": "^3.1.1",
-    "rollup-plugin-typescript2": "^0.25.3",
-    "terser": "^4.6.3",
-    "typedoc": "^0.16.7",
-    "typescript": "^3.7.5"
+    "rollup-plugin-typescript2": "^0.26.0",
+    "terser": "^4.6.4",
+    "typedoc": "^0.16.11",
+    "typescript": "^3.8.3"
   },
   "directories": {
     "lib": "lib"
@@ -44,6 +44,7 @@
   "license": "MIT",
   "main": "lib/p5-extension.js",
   "module": "lib/p5-extension.mjs",
+  "optionalDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fal-works/p5-extension.git"
