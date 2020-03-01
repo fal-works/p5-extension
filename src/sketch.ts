@@ -4,6 +4,7 @@ import { setP5Instance, setCanvas } from "./shared";
 import { createScaledCanvas, createFullScaledCanvas } from "./canvas";
 import { onSetup } from "./setup";
 import { P5Methods } from "./p5-methods";
+import { pauseOrResume } from "./misc";
 
 /**
  * Settings data that should be passed to `startSketch()`.
@@ -60,6 +61,20 @@ export interface SketchSettings {
 }
 
 /**
+ * Function used if `P5Methods.keyTyped` is not specified.
+ */
+const defaultKeyTyped = (p: p5) => {
+  switch (p.key) {
+    case "p":
+      pauseOrResume();
+      break;
+    case "g":
+      p.save("image.png");
+      break;
+  }
+};
+
+/**
  * Calls `new p5()` with the given settings information.
  * @param settings
  */
@@ -113,6 +128,11 @@ export const startSketch = (settings: SketchSettings): void => {
       initialize();
     };
 
-    Object.assign(p, p5Methods, { windowResized });
+    Object.assign(
+      p,
+      { keyTyped: defaultKeyTyped },
+      { windowResized },
+      p5Methods
+    );
   }, htmlElement);
 };
