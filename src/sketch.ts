@@ -130,7 +130,7 @@ export const startSketch = (settings: SketchSettings): void => {
 
     Object.assign(
       p,
-      { keyTyped: defaultKeyTyped },
+      { keyTyped: defaultKeyTyped.bind(p) },
       { windowResized },
       p5Methods
     );
