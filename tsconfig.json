@@ -1,9 +1,12 @@
 {
     "compilerOptions": {
+        "declaration": true,
+        "declarationDir": "./types",
+        "outDir": "./out",
         "moduleResolution": "node",
         "target": "es2015",
         "module": "es2015",
-        "sourceMap": true,
+        "sourceMap": false,
         "preserveConstEnums": false,
         "noEmitOnError": true,
         "allowSyntheticDefaultImports": true,
@@ -11,8 +14,9 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "newLine": "LF",
-        "declaration": true,
-        "declarationDir": "./types"
-    }
+        "newLine": "LF"
+    },
+    "include": [
+        "./src/**/*.ts"
+    ]
 }

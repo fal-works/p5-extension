@@ -18,7 +18,7 @@ const createPathParameters = (
   return {
     from,
     to,
-    length: distance(from.x, from.y, to.x, to.y)
+    length: distance(from.x, from.y, to.x, to.y),
   };
 };
 
@@ -53,7 +53,7 @@ const createPaths = (vertices: readonly CCC.Vector2D.Unit[]) => {
       from: parameters.from,
       to: parameters.to,
       previousRatio: lastThresholdRatio,
-      nextRatio: nextThresholdRatio
+      nextRatio: nextThresholdRatio,
     };
     lastThresholdRatio = nextThresholdRatio;
   }

@@ -4,7 +4,7 @@ import { p, canvas } from "../shared";
 export const enum ShakeType {
   DEFAULT = "DEFAULT",
   VERTICAL = "VERTICAL",
-  HORIZONTAL = "HORIZONTAL"
+  HORIZONTAL = "HORIZONTAL",
 }
 
 let shakeFactor = 0;

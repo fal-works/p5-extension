@@ -13,7 +13,7 @@ export const createCorner = (
     { x, y },
     { x: x2, y },
     { x: x2, y: y2 },
-    { x, y: y2 }
+    { x, y: y2 },
   ]);
 };
 
@@ -34,6 +34,6 @@ export const createCenter = (
     { x: x1, y: y1 },
     { x: x2, y: y1 },
     { x: x2, y: y2 },
-    { x: x1, y: y2 }
+    { x: x1, y: y2 },
   ]);
 };

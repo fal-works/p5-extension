@@ -9,7 +9,7 @@ import {
   max2,
   Tween,
   Timer,
-  clamp
+  clamp,
 } from "../ccc";
 import { drawTranslatedAndScaled } from "./transform";
 
@@ -71,7 +71,7 @@ export const create = (parameters: {
     initialDisplayPosition,
     initialFocusPoint,
     minZoomFactor,
-    maxZoomFactor
+    maxZoomFactor,
   } = parameters;
 
   const regionBoundary =
@@ -94,7 +94,7 @@ export const create = (parameters: {
     regionBoundary,
     zoomFactorRange: {
       start: zoomFactorRangeStart,
-      end: zoomFactorRangeEnd
+      end: zoomFactorRangeEnd,
     },
     focusPoint: initialFocusPoint
       ? copyVector(initialFocusPoint)
@@ -105,7 +105,7 @@ export const create = (parameters: {
     zoomTimer: Timer.dummy,
     targetZoomFactor: undefined,
     targetFocusPoint: undefined,
-    focusPointEasingFactor: 0.1
+    focusPointEasingFactor: 0.1,
   };
 };
 
@@ -114,12 +114,12 @@ export const update = (camera: Unit) => {
     displaySize: { width, height },
     regionBoundary: {
       topLeft: { x: leftX, y: topY },
-      bottomRight: { x: rightX, y: bottomY }
+      bottomRight: { x: rightX, y: bottomY },
     },
     zoomFactor,
     focusPoint,
     targetFocusPoint,
-    focusPointEasingFactor
+    focusPointEasingFactor,
   } = camera;
 
   if (targetFocusPoint) {
@@ -201,10 +201,10 @@ export const tweenZoom = (
     zoomFactorRange.end
   );
 
-  const timer = Tween.create(v => (camera.zoomFactor = v), duration, {
+  const timer = Tween.create((v) => (camera.zoomFactor = v), duration, {
     start: camera.zoomFactor,
     end: endZoomFactor,
-    easing
+    easing,
   });
   timer.onComplete.push(stopTweenZoom.bind(undefined, camera));
   camera.targetZoomFactor = endZoomFactor;

@@ -1,10 +1,9 @@
-import typescript from "rollup-plugin-typescript2";
+import resolve from "@rollup/plugin-node-resolve";
 import cleanup from "rollup-plugin-cleanup";
 
 // ----------------------------------------------------------------------------
 
-const version = "0.8.1";
-const cleanBuild = true;
+const version = "0.9.0";
 
 const moduleName = "p5-extension";
 const umdName = "p5ex";
@@ -31,20 +30,14 @@ const distributionDirectory = "lib";
 
 export { distributionDirectory, moduleName, umdName, bannerComment };
 
-export const input = `src/${moduleName}.ts`;
+export const input = `out/${moduleName}.js`;
 export const external = ["p5", "@fal-works/creative-coding-core"];
 
-export const createPlugins = compilerOptionsOverride => [
-  typescript({
-    useTsconfigDeclarationDir: true,
-    celan: cleanBuild,
-    tsconfigOverride: compilerOptionsOverride
-      ? { compilerOptions: compilerOptionsOverride }
-      : undefined
-  }),
+export const createPlugins = () => [
+  resolve(),
   cleanup({
     comments: /^\*\*/, // preserve jsdoc comments
     sourcemap: false,
-    extensions: ["ts"]
-  })
+    extensions: ["js"],
+  }),
 ];

@@ -5,7 +5,7 @@ import {
   bannerComment,
   input,
   external,
-  createPlugins
+  createPlugins,
 } from "./rollup-config-common";
 
 export default {
@@ -19,9 +19,9 @@ export default {
     preferConst: true,
     globals: {
       p5: "p5",
-      "@fal-works/creative-coding-core": "CreativeCodingCore"
-    }
+      "@fal-works/creative-coding-core": "CreativeCodingCore",
+    },
   },
   external,
-  plugins: createPlugins()
+  plugins: createPlugins(),
 };

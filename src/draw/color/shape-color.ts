@@ -28,7 +28,7 @@ const overwrite = (
     shapeColor.stroke = returnVoid;
   } else {
     const strokeAlphaColor = AlphaColor.create(strokeColor, alphaResolution);
-    shapeColor.stroke = alpha =>
+    shapeColor.stroke = (alpha) =>
       renderer.stroke(AlphaColor.get(strokeAlphaColor, alpha));
   }
 
@@ -38,7 +38,7 @@ const overwrite = (
     shapeColor.fill = returnVoid;
   } else {
     const fillAlphaColor = AlphaColor.create(fillColor, alphaResolution);
-    shapeColor.fill = alpha =>
+    shapeColor.fill = (alpha) =>
       renderer.fill(AlphaColor.get(fillAlphaColor, alpha));
   }
 
@@ -59,7 +59,7 @@ export const create = (
 ): Unit => {
   const shapeColor: Unit = {
     stroke: returnVoid,
-    fill: returnVoid
+    fill: returnVoid,
   };
   const prepareShapeColor = overwrite.bind(
     undefined,
