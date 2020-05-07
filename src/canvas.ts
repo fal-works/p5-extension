@@ -59,7 +59,7 @@ const getPhysicalCanvasSize = (data: ScalingData) => {
 
   return {
     width: scaleFactor * logicalSize.width,
-    height: scaleFactor * logicalSize.height
+    height: scaleFactor * logicalSize.height,
   };
 };
 
@@ -69,18 +69,18 @@ const getScaledCanvasAttributes = (data: ScalingData) => {
 
   const drawScaledFunction: (drawCallback: () => void) => void =
     scaleFactor !== 1
-      ? drawCallback => drawScaled(drawCallback, scaleFactor)
-      : drawCallback => drawCallback();
+      ? (drawCallback) => drawScaled(drawCallback, scaleFactor)
+      : (drawCallback) => drawCallback();
 
   return {
     logicalSize,
     logicalRegion: RectangleRegion.create(Vector2D.zero, logicalSize),
     logicalCenterPosition: {
       x: logicalSize.width / 2,
-      y: logicalSize.height / 2
+      y: logicalSize.height / 2,
     },
     scaleFactor,
-    drawScaled: drawScaledFunction
+    drawScaled: drawScaledFunction,
   };
 };
 
@@ -101,7 +101,7 @@ const constructCanvas = (
 
   let previousScalingData = scalingData;
 
-  const resizeIfNeeded: ScaledCanvas["resizeIfNeeded"] = noRedraw => {
+  const resizeIfNeeded: ScaledCanvas["resizeIfNeeded"] = (noRedraw) => {
     const scalingData = getScalingData();
     if (compareScalingData(previousScalingData, scalingData)) return false;
 
@@ -142,10 +142,10 @@ export const createScaledCanvas = (parameters: {
     getPhysicalContainerSize,
     fittingOption,
     onCanvasResized,
-    renderer
+    renderer,
   } = Object.assign(
     {
-      getPhysicalContainerSize: getWindowSize
+      getPhysicalContainerSize: getWindowSize,
     },
     parameters
   );
@@ -162,7 +162,7 @@ export const createScaledCanvas = (parameters: {
 
   const getScalingData = (): ScalingData => ({
     scaleFactor: getScaleFactor(),
-    logicalSize
+    logicalSize,
   });
 
   return constructCanvas(getScalingData, onCanvasResized, renderer);
@@ -189,7 +189,7 @@ export const createFullScaledCanvas = (parameters: {
     logicalHeight,
     getPhysicalContainerSize,
     onCanvasResized,
-    renderer
+    renderer,
   } = Object.assign({ getPhysicalContainerSize: getWindowSize }, parameters);
 
   const getScaleFactor = !parameters.disableScaling
@@ -203,8 +203,8 @@ export const createFullScaledCanvas = (parameters: {
       scaleFactor,
       logicalSize: {
         width: getPhysicalContainerSize().width / scaleFactor,
-        height: logicalHeight
-      }
+        height: logicalHeight,
+      },
     };
   };
 

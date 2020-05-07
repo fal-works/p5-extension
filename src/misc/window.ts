@@ -6,5 +6,5 @@ import { p } from "../shared";
  */
 export const getWindowSize = (): CCC.RectangleSize.Unit => ({
   width: p.windowWidth,
-  height: p.windowHeight
+  height: p.windowHeight,
 });

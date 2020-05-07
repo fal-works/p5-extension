@@ -105,7 +105,7 @@ export const colorToRGB = (color: p5.Color) => {
   return {
     r: p.red(color),
     g: p.green(color),
-    b: p.blue(color)
+    b: p.blue(color),
   };
 };
 
@@ -119,6 +119,6 @@ export const colorToARGB = (color: p5.Color) => {
     a: p.alpha(color),
     r: p.red(color),
     g: p.green(color),
-    b: p.blue(color)
+    b: p.blue(color),
   };
 };

@@ -7,7 +7,7 @@ export enum State {
   MouseOver,
   Pressed,
   Inactive,
-  Hidden
+  Hidden,
 }
 
 export interface Unit {
@@ -99,7 +99,7 @@ export const create = (
     drawPressed,
     drawInactive,
     draw,
-    state: State.Default
+    state: State.Default,
   };
 
   const allowSubsequentEvents = !!parameters.allowSubsequentEvents;

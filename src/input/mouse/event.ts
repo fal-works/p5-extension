@@ -107,7 +107,7 @@ export const createListener = (callbacks: ListenerCallbacks): Listener => ({
   onLeave: unifyToArray(callbacks.onLeave),
   isMouseOver: callbacks.isMouseOver || ConstantFunction.returnTrue,
   active: true,
-  mouseOver: false
+  mouseOver: false,
 });
 
 /**
@@ -161,7 +161,7 @@ const enum Type {
   Clicked,
   Pressed,
   Released,
-  Moved
+  Moved,
 }
 
 /**

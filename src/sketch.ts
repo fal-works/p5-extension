@@ -92,7 +92,7 @@ export const startSketch = (settings: SketchSettings): void => {
     fittingOption,
     windowResized,
     onCanvasResized,
-    renderer
+    renderer,
   } = settings;
 
   new p5((p: p5): void => {
@@ -107,18 +107,18 @@ export const startSketch = (settings: SketchSettings): void => {
         ? createScaledCanvas({
             logicalSize: {
               width: logicalCanvasWidth,
-              height: logicalCanvasHeight
+              height: logicalCanvasHeight,
             },
             getPhysicalContainerSize,
             fittingOption,
             onCanvasResized,
-            renderer
+            renderer,
           })
         : createFullScaledCanvas({
             logicalHeight: logicalCanvasHeight,
             getPhysicalContainerSize,
             onCanvasResized,
-            renderer
+            renderer,
           });
       setCanvas(scaledCanvas);
 

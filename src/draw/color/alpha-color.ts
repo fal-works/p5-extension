@@ -31,7 +31,7 @@ export const create = (color: ColorParameter, resolution: number): Unit => {
 
   return {
     colors,
-    maxIndex
+    maxIndex,
   };
 };
 
