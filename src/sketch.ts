@@ -2,7 +2,7 @@ import p5 from "p5";
 import * as CCC from "@fal-works/creative-coding-core";
 import { setP5Instance, setCanvas } from "./shared";
 import { createScaledCanvas, createFullScaledCanvas } from "./canvas";
-import { onSetup } from "./setup";
+import { onSetup, onInstantiate } from "./setup";
 import { P5Methods } from "./p5-methods";
 import { pauseOrResume } from "./misc";
 
@@ -97,6 +97,7 @@ export const startSketch = (settings: SketchSettings): void => {
 
   new p5((p: p5): void => {
     setP5Instance(p);
+    CCC.Arrays.loopRunWithArgument(onInstantiate, p);
 
     p.setup = (): void => {
       const getPhysicalContainerSize = htmlElement
