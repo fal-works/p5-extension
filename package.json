@@ -1,13 +1,13 @@
 {
   "name": "@fal-works/p5-extension",
   "description": "An extension for p5.js.",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "author": "FAL",
   "bugs": {
     "url": "https://github.com/fal-works/p5-extension/issues"
   },
   "dependencies": {
-    "@fal-works/creative-coding-core": "0.9.0"
+    "@fal-works/creative-coding-core": "0.10.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^9.0.0",
