@@ -25,6 +25,7 @@ export const {
   Angle,
   Angle: { TWO_PI },
   HSV,
+  Cielab,
   ConstantFunction,
   ConstantFunction: { returnVoid },
   Tween,
