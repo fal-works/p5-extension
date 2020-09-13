@@ -7,3 +7,5 @@ import * as ShapeColor from "./shape-color";
 export { ShapeColor };
 
 export * from "./cielab";
+
+export * from "./context";
